@@ -1,5 +1,4 @@
 {
-  "name": "pantry",
   "version": 2,
   "env": {
     "FIREBASE_AUTH_DOMAIN": "@pantry-firebase-auth-domain",

@@ -15,6 +15,8 @@ function initFirebase() {
   }
 }
 
+initFirebase();
+
 const TokenContext = React.createContext<null | string>(null);
 
 export function UserContext(props: { children: React.ReactNode }) {
@@ -22,7 +24,6 @@ export function UserContext(props: { children: React.ReactNode }) {
 
   React.useEffect(() => {
     let active = true;
-    initFirebase();
 
     const off = firebase.auth().onAuthStateChanged((user) => {
       if (user) {
