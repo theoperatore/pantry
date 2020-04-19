@@ -1,5 +1,10 @@
 {
   "name": "pantry",
   "version": 2,
-  "env": {}
+  "env": {
+    "FIREBASE_AUTH_DOMAIN": "@pantry-firebase-auth-domain",
+    "FIREBASE_DATABASE_URL": "@pantry-firebase-database-url",
+    "FIREBASE_PROJECT_ID": "@pantry-firebase-project-id",
+    "FIREBASE_PUBLIC_API_KEY": "@pantry-firebase-public-api-key"
+  }
 }

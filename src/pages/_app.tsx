@@ -1,6 +1,7 @@
 import App from 'next/app';
 import React from 'react';
 import { ThemeProvider } from 'styled-components';
+import { UserContext } from '../auth/UserContext';
 
 const theme = {
   colors: {
@@ -13,7 +14,9 @@ export default class MyApp extends App {
     const { Component, pageProps } = this.props;
     return (
       <ThemeProvider theme={theme}>
-        <Component {...pageProps} />
+        <UserContext>
+          <Component {...pageProps} />
+        </UserContext>
       </ThemeProvider>
     );
   }
