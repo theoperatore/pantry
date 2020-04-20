@@ -1,3 +1,57 @@
+# Pantry
+
+A small next.js web-app that tracks what we currently have in our pantry. Each pantry item can either have a `count` or a `range` to indicate how much we have left before we need to replenish again.
+
+The most interesting part is the raspberry pi touch screen setup that is next to the pantry that is running the app. Helps with keeping it up-to-date when using items in the pantry! :)
+
+# Tech and hardware
+
+- [firebase]()
+- [nextjs]()
+- [zeit now]()
+- [raspberry pi 4b]()
+- [raspberry pi touchscreen]()
+- [raspberry pi chromium in kiosk mode]()
+
+# From scratch local setup
+
+1. Install [nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+2. `nvm install && nvm use` while in the root of this project
+3. Install [yarn](https://classic.yarnpkg.com/en/docs/install#alternatives-stable)
+4. `yarn install`
+5. Install the `now` cli via `yarn global install now`
+6. `now env pull` to get development environment (it's prod secrets, we're not that fancy)
+7. `now dev` to start the local development environment
+
+# RaspberryPi from scratch setup (headless)
+
+1. create `wpa_supplicant` file with ssid / wifi-network information
+2. `touch ssh` in the `boot` directory to enable the ssh daemon on boot
+3. turn it on by plugging it in
+4. `ssh pi@raspberrypi.local`, default password is `raspberry`
+5. run the app via `chromium-browser --kiosk https://pantry.alorg.net`
+
+# To set up your own one of these
+
+1. decide if you want a raspberry pi setup or not
+2. fork the repo
+3. set up your own [zeit.co](https://zeit.co) account for deployments
+4. start a new [firebase project]()
+5. add the firebase configuration to your [zeit.co]() project's environment page for all environments (production, preview, development).
+6. Link your [zeit.co]() account with the Google Cloud Integration
+7. Upload a service account json key to your [zeit.co] google cloud integration
+8. enable firebase admin service account, so your production/preview environments get the `GCLOUD_CREDENTIALS` environment variable
+9. `echo $(cat ./path/to/sa/json/key) | base64` run that on your ServiceAccount json key to base64 encode it. Add the output to our `.env` file as the environment var `GCLOUD_CREDENTIALS` (to replicate production)
+10. Add this base64 encoded variable to your [zeit.co]() project's environment page under development.
+11. To enable continuous deployment, connect your [zeit.co]() account with your github and give it access to the fork.
+12. Joy
+
+# License
+
+MIT
+
+---
+
 # Example app with styled-components
 
 This example features how you use a different styling solution than [styled-jsx](https://github.com/zeit/styled-jsx) that also supports universal styles. That means we can serve the required styles for the first render within the HTML and then load the rest in the client. In this case we are using [styled-components](https://github.com/styled-components/styled-components).
@@ -58,15 +112,15 @@ When wrapping a [Link](https://nextjs.org/docs/api-reference/next/link) from `ne
 **components/StyledLink.js**
 
 ```javascript
-import React from 'react'
-import Link from 'next/link'
-import styled from 'styled-components'
+import React from 'react';
+import Link from 'next/link';
+import styled from 'styled-components';
 
 const StyledLink = ({ as, children, className, href }) => (
   <Link href={href} as={as} passHref>
     <a className={className}>{children}</a>
   </Link>
-)
+);
 
 export default styled(StyledLink)`
   color: #0075e0;
@@ -82,20 +136,20 @@ export default styled(StyledLink)`
     outline: none;
     border: 0;
   }
-`
+`;
 ```
 
 **pages/index.js**
 
 ```javascript
-import React from 'react'
-import StyledLink from '../components/StyledLink'
+import React from 'react';
+import StyledLink from '../components/StyledLink';
 
 export default () => (
   <StyledLink href="/post/[pid]" forwardedAs="/post/abc">
     First post
   </StyledLink>
-)
+);
 ```
 
 </details>
