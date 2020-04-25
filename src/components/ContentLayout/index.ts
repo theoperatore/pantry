@@ -8,6 +8,8 @@ export const ContentLayout = styled.div`
 
   /* 63px is the height of the AppBar as of writing */
   ${AppBarComp} + & {
-    padding-top: calc(63px + ${(props) => props.theme.spacing.sm});
+    padding-top: calc(
+      env(safe-area-inset-top) + 63px + ${(props) => props.theme.spacing.sm}
+    );
   }
 `;

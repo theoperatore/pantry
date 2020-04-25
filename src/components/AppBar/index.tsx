@@ -6,7 +6,12 @@ export const AppBarComp = styled.div<{ isScrolled: boolean }>`
   top: 0;
   left: 0;
   right: 0;
-  padding: ${(props) => props.theme.spacing.sm};
+  padding-top: calc(
+    env(safe-area-inset-top) + ${(props) => props.theme.spacing.sm}
+  );
+  padding-left: ${(props) => props.theme.spacing.sm};
+  padding-right: ${(props) => props.theme.spacing.sm};
+  padding-bottom: ${(props) => props.theme.spacing.sm};
   box-shadow: ${(props) =>
     props.isScrolled ? '0 0 10px 4px rgba(0, 0, 0, 0.12)' : null};
   background-color: white;

@@ -35,15 +35,16 @@ export default class MyApp extends App {
           <meta name="apple-mobile-web-app-title" content="Pantry"></meta>
           <meta name="apple-mobile-web-app-capable" content="yes"></meta>
           <meta name="mobile-web-app-capable" content="yes" />
+
+          {/* a value of default should be what we want, but that doesn't seem to work */}
           <meta
             name="apple-mobile-web-app-status-bar-style"
             content="black-translucent"
           />
-          <link rel="manifest" href="/manifest.json?id=1" />
-          <meta name="theme-color" content="#ffffff" />
+          <link rel="manifest" href="/manifest.json?id=2" />
           <meta
             name="viewport"
-            content="width=device-width, initial-scale=1, user-scalable=no"
+            content="width=device-width, initial-scale=1, user-scalable=no, viewport-fit=cover"
           />
           <meta
             name="description"
