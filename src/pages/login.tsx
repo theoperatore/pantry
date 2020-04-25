@@ -3,6 +3,7 @@ import Router from 'next/router';
 import StyledFirebaseUI from 'react-firebaseui/StyledFirebaseAuth';
 import { useUser, useFirebaseAuth } from '../auth/UserContext';
 import firebase from 'firebase/app';
+import { ContentLayout } from '../components';
 
 const config: firebaseui.auth.Config = {
   signInFlow: 'redirect',
@@ -23,8 +24,8 @@ export default function Login() {
   }, [user]);
 
   return (
-    <div>
+    <ContentLayout>
       <StyledFirebaseUI firebaseAuth={auth} uiConfig={config} />
-    </div>
+    </ContentLayout>
   );
 }
