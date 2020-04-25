@@ -1,48 +1,42 @@
 import React from 'react';
 import Link from 'next/link';
 import styled from 'styled-components';
-import { useUser, useSignOut, getToken } from '../auth/UserContext';
+import { useUser } from '../auth/UserContext';
+import { Button, AppBar, ContentLayout } from '../components';
 
 const Title = styled.h1`
-  font-size: 50px;
+  font-size: 1em;
   color: ${({ theme }) => theme.colors.primary};
+  text-transform: uppercase;
+  font-weight: 100;
+  letter-spacing: 4px;
+  line-height: 1;
+  display: inline;
 `;
 
 export default () => {
   const user = useUser();
-  const signOut = useSignOut();
-  const [status, setStatus] = React.useState('');
-
-  async function getData() {
-    const token = await getToken();
-    const response = await fetch('/api/pantry', {
-      headers: {
-        accept: 'application/json',
-        authorization: `token ${token}`,
-      },
-    });
-
-    const data = await response.json();
-    setStatus(JSON.stringify(data));
-  }
 
   return (
-    <div>
-      <Title>{user ? 'My' : 'Your'} page</Title>
-      <button onClick={getData}>user is: {user ? 'known' : 'unknown'}</button>
-      <p>{status}</p>
-      <div className="horizontal side-by-side">
-        <div className="next-to">
-          <Link href="/login">
-            <a>log in</a>
-          </Link>
+    <>
+      <AppBar>
+        <div>
+          <Title className="next-to">pantry</Title>
+          {/* some status indicator of connectivity */}
+          {/* <small>online</small> */}
         </div>
-        <div className="next-to">
-          <Link href="/">
-            <a onClick={signOut}>log out</a>
-          </Link>
+        <div>
+          <Button disabled title="Add a new pantry item">
+            new
+          </Button>
+          {!user && (
+            <Link href="/login">
+              <Button disabled={!!user}>log in</Button>
+            </Link>
+          )}
         </div>
-      </div>
-    </div>
+      </AppBar>
+      <ContentLayout>items</ContentLayout>
+    </>
   );
 };

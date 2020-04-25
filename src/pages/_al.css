@@ -1,5 +1,7 @@
 * {
   box-sizing: border-box;
+  padding: 0;
+  margin: 0;
 }
 [hidden] {
   display: none !important;
@@ -27,7 +29,6 @@
   flex-direction: column;
 }
 .center {
-  justify-content: center;
   align-items: center;
 }
 .flex {
@@ -38,4 +39,11 @@ html {
   --spacing: 24px;
   --spacing-s: 12px;
   --spacing-m: 36px;
+}
+
+body {
+  background-color: white;
+  font-family: sans-serif;
+  padding: 0;
+  margin: 0;
 }

@@ -1,0 +1,15 @@
+{
+  "short_name": "Pantry",
+  "name": "Pantry",
+  "icons": [
+    {
+      "src": "/cropped-garlic.png",
+      "sizes": "748x748",
+      "type": "image/png"
+    }
+  ],
+  "start_url": "/",
+  "display": "standalone",
+  "theme_color": "#ffffff",
+  "background_color": "#ffffff"
+}
