@@ -4,6 +4,7 @@ import NextHead from 'next/head';
 import { ThemeProvider } from 'styled-components';
 import { UserContext } from '../auth/UserContext';
 import './_al.css';
+import '@fortawesome/fontawesome-free/css/all.css';
 
 // color theme generated from:
 // https://mycolor.space/?hex=%23845EC2&sub=1
@@ -14,6 +15,9 @@ const theme = {
     danger: '#c34a36',
     neutral: '#b0a8b9',
     highlight: '#ff8066',
+    green: '#00c9a7',
+    blue: '#1c819e',
+    freshness: '#008c82',
   },
   spacing: {
     xs: '8px',
