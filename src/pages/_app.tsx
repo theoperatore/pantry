@@ -36,10 +36,10 @@ export default class MyApp extends App {
           <meta name="apple-mobile-web-app-capable" content="yes"></meta>
           <meta name="mobile-web-app-capable" content="yes" />
 
-          {/* a value of default should be what we want, but that doesn't seem to work */}
+          {/* this value is affected by dark-mode on system settings. */}
           <meta
             name="apple-mobile-web-app-status-bar-style"
-            content="black-translucent"
+            content="default"
           />
           <link rel="manifest" href="/manifest.json?id=2" />
           <meta
