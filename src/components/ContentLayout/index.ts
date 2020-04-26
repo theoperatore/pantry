@@ -5,6 +5,7 @@ export const ContentLayout = styled.div`
   padding-top: ${(props) => props.theme.spacing.sm};
   padding-left: ${(props) => props.theme.spacing.sm};
   padding-right: ${(props) => props.theme.spacing.sm};
+  padding-bottom: env(safe-area-inset-bottom);
 
   /* 63px is the height of the AppBar as of writing */
   ${AppBarComp} + & {
