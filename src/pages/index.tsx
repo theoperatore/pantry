@@ -2,7 +2,7 @@ import React from 'react';
 import Link from 'next/link';
 import styled from 'styled-components';
 import { useUser } from '../auth/UserContext';
-import { Button, AppBar, ContentLayout } from '../components';
+import { Button, AppBar, ContentLayout, Item } from '../components';
 
 const Title = styled.h1`
   font-size: 1em;
@@ -36,7 +36,16 @@ export default () => {
           )}
         </div>
       </AppBar>
-      <ContentLayout>items</ContentLayout>
+      <ContentLayout>
+        <Item />
+        <Item />
+        <Item />
+        <Item />
+        <Item />
+        <Item />
+        <Item />
+        <Item />
+      </ContentLayout>
     </>
   );
 };
