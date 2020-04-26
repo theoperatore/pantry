@@ -12,6 +12,7 @@
     }
   },
   "dependencies": {
+    "@fortawesome/fontawesome-free": "^5.13.0",
     "firebase": "^7.14.1",
     "firebase-admin": "^8.10.0",
     "next": "latest",
