@@ -1,6 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { verifyUserToken } from '../../auth/admin';
 import { getPantry } from '../../db';
+import { PantryResponse } from '../../schema/pantry';
 
 export default async function pantry(
   req: NextApiRequest,
@@ -30,9 +31,11 @@ export default async function pantry(
   if (req.method === 'GET') {
     try {
       const items = await getPantry();
-      return res.json({
+      const pantryResponse: PantryResponse = {
         pantry: items,
-      });
+      };
+
+      return res.json(pantryResponse);
     } catch (error) {
       console.error(error);
       return res.status(500);
