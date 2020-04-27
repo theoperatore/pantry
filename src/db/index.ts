@@ -1,0 +1,1 @@
+export { getPantry } from './store';
