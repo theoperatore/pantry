@@ -20,7 +20,8 @@
     "react-dom": "^16.8.0",
     "react-firebaseui": "^4.1.0",
     "react-is": "^16.13.1",
-    "styled-components": "^5.0.0"
+    "styled-components": "^5.0.0",
+    "swr": "^0.2.0"
   },
   "devDependencies": {
     "@types/node": "^13.13.0",
