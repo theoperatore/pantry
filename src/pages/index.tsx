@@ -4,7 +4,14 @@ import Link from 'next/link';
 import useSwr from 'swr';
 import styled from 'styled-components';
 import { useUser } from '../auth/UserContext';
-import { Button, AppBar, ContentLayout, Item } from '../components';
+import {
+  Button,
+  AppBar,
+  ContentLayout,
+  Item,
+  ItemDetailDialog,
+  ItemDetailProvider,
+} from '../components';
 import { PantryResponse } from '../schema/pantry';
 import { getPantry } from '../db';
 
@@ -38,7 +45,7 @@ export default function Pantry(props: Props) {
   });
 
   return (
-    <>
+    <ItemDetailProvider>
       <AppBar>
         <div>
           <Title className="next-to">pantry</Title>
@@ -60,18 +67,11 @@ export default function Pantry(props: Props) {
         {error && <p>Failed pantry request!</p>}
         {data &&
           data.pantry.map((pantryItem) => (
-            <Item
-              key={pantryItem.id}
-              name={pantryItem.name}
-              iconUrl={pantryItem.icon_url}
-              quantity={pantryItem.quantities.reduce(
-                (s, q) => s + q.quantity,
-                0
-              )}
-            />
+            <Item key={pantryItem.id} item={pantryItem} />
           ))}
       </ContentLayout>
-    </>
+      <ItemDetailDialog />
+    </ItemDetailProvider>
   );
 }
 
