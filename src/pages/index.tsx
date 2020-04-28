@@ -2,7 +2,6 @@ import React from 'react';
 import { GetServerSideProps } from 'next';
 import Link from 'next/link';
 import useSwr from 'swr';
-import styled from 'styled-components';
 import { useUser } from '../auth/UserContext';
 import {
   Button,
@@ -11,19 +10,10 @@ import {
   Item,
   ItemDetailDialog,
   ItemDetailProvider,
+  Title,
 } from '../components';
 import { PantryResponse } from '../schema/pantry';
 import { getPantry } from '../db';
-
-const Title = styled.h1`
-  font-size: 1em;
-  color: ${({ theme }) => theme.colors.primary};
-  text-transform: uppercase;
-  font-weight: 100;
-  letter-spacing: 4px;
-  line-height: 1;
-  display: inline;
-`;
 
 async function pantryLoader(url: string) {
   const response = await fetch(url);

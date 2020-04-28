@@ -8,3 +8,4 @@ export {
   ItemDetailProvider,
 } from './ItemDetail/ItemDetailContext';
 export { Sheet } from './Sheet';
+export { Title } from './Title';
