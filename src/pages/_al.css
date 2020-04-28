@@ -31,7 +31,7 @@
   margin-right: var(--spacing-xs);
 }
 .next-to {
-  margin-right: var(--spacing-s);
+  margin-right: var(--spacing-sm);
 }
 .vertical {
   display: flex;
@@ -54,9 +54,9 @@
 }
 html {
   --spacing-xs: 8px;
-  --spacing: 24px;
-  --spacing-s: 12px;
-  --spacing-m: 36px;
+  --spacing-nm: 24px;
+  --spacing-sm: 12px;
+  --spacing-md: 36px;
   --color-primary: #845ec2;
   --color-dark: #4b4453;
   --color-danger: #c34a36;
@@ -72,4 +72,20 @@ body {
   font-family: sans-serif;
   padding: 0;
   margin: 0;
+}
+
+.sheet {
+  position: fixed;
+  background-color: white;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  left: 2vw;
+  width: 96vw;
+  z-index: 100;
+  height: 100vh;
+}
+.sheet-content {
+  padding: 12px;
+  max-height: 75vh;
+  overflow: hidden;
 }

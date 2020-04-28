@@ -25,7 +25,7 @@ const TokenContext = React.createContext<null | string>(null);
  * @param props containing the children to render
  */
 export function UserContext(props: { children: React.ReactNode }) {
-  const [token, setToken] = React.useState(null);
+  const [token, setToken] = React.useState('');
 
   React.useEffect(() => {
     let active = true;
@@ -39,7 +39,7 @@ export function UserContext(props: { children: React.ReactNode }) {
         });
       } else {
         if (active) {
-          setToken(null);
+          setToken('');
         }
       }
     });

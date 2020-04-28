@@ -1,5 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
+import { useItemDetailContext } from '../ItemDetail/ItemDetailContext';
+import { PantryItem } from '../../schema/pantry';
 
 const ItemContainer = styled.div`
   border-radius: 10px;
@@ -36,27 +38,31 @@ const IconFreshness = styled.i<{ isFresh?: boolean }>`
 `;
 
 type Props = {
-  name: string;
-  iconUrl: string;
-  // quantityType: 'range' | 'unit';
-
-  // nest these fields
-  quantity: number;
+  item: PantryItem;
 };
 
 export function Item(props: Props) {
+  const [, dispatch] = useItemDetailContext();
+
+  function handleClick() {
+    dispatch({ type: 'dialogStateSetAction', pantryItem: props.item });
+  }
+
+  const { icon_url, name, quantities } = props.item;
+  const total = quantities.reduce((sum, q) => sum + q.quantity, 0);
+
   return (
-    <ItemContainer>
+    <ItemContainer onClick={handleClick}>
       <div className="horizontal">
         <div className="center right-next-to">
-          <IconImg src={props.iconUrl} alt={props.name.charAt(0)} />
+          <IconImg src={icon_url} alt={name.charAt(0)} />
         </div>
         <div className="flex vertical center-vertical">
-          <IconLabel bold>{props.name}</IconLabel>
+          <IconLabel bold>{name}</IconLabel>
           <IconSubLabel>3 days ago</IconSubLabel>
         </div>
         <div className="flex vertical center-vertical end-vertical">
-          <IconLabel>{props.quantity}pcs</IconLabel>
+          <IconLabel>{total}pcs</IconLabel>
           <div className="horizontal side-by-side">
             <IconFreshness
               className="fas fa-seedling right-next-to"
