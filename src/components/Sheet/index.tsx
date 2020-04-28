@@ -11,6 +11,7 @@ type Props = {
 export function Sheet(props: Props) {
   const heightRef = React.useRef<HTMLDivElement>(null);
   const [height, setHeight] = React.useState(0);
+  const [sheetHeight, setSheetHeight] = React.useState('100vh');
   const [{ y }, set] = useSpring(() => ({ y: height, config: config.stiff }));
   const bind = useDrag(
     (state) => {
@@ -38,6 +39,10 @@ export function Sheet(props: Props) {
       set({
         immediate: false,
         y: down ? my : 0,
+        config: {
+          tension: 300,
+          friction: 20,
+        },
       });
     },
     {
@@ -63,26 +68,32 @@ export function Sheet(props: Props) {
     setHeight(newHeight);
   }, []);
 
+  React.useEffect(() => {
+    const isStandalone = (window.navigator as any).standalone;
+    setSheetHeight(isStandalone ? '100vh' : `${window.innerHeight}px`);
+  }, []);
+
   return (
     <>
       <a.div
         style={{
-          zIndex: props.isOpen ? 1 : -1,
+          zIndex: y.to([0, height], [1, 0], 'clamp'),
           visibility: props.isOpen ? 'visible' : 'hidden',
           position: 'absolute',
           top: 0,
           left: 0,
           width: '100vw',
-          height: '100vh',
-          touchAction: y.to((v) => (v < 0 ? 'auto' : 'none')),
+          height: sheetHeight,
+          touchAction: 'none',
+          userSelect: 'none',
           opacity: y.to([0, height], [1, 0], 'clamp'),
           backgroundColor: y.to(
             [height, 0],
-            ['rgba(0,0,0,0)', 'rgba(0,0,0,0.4)'],
+            ['rgba(0,0,0,0)', 'rgba(0,0,0,0.7)'],
             'clamp'
           ),
         }}
-        onClick={() => props.onClose()}
+        onClick={props.onClose}
       />
       <a.div
         className="sheet"
