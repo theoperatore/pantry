@@ -68,7 +68,7 @@ function Detail(props: { item: PantryItem }) {
               <Subtext>
                 {format(
                   new Date(q.last_modified_ts),
-                  "'Last modified' LLL i, yyyy (EEEEEE)"
+                  "'Last modified' LLL d, yyyy (EEEEEE)"
                 )}
               </Subtext>
             </div>
