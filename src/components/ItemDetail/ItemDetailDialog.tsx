@@ -7,6 +7,7 @@ import { Sheet } from '../Sheet';
 import { PantryItem } from '../../schema/pantry';
 import { IconFreshness } from '../IconFreshness';
 import { Button } from '../Button';
+import { useUser } from '../../auth/UserContext';
 
 const IconImg = styled.img`
   width: 75px;
@@ -24,6 +25,7 @@ const Subtext = styled.p`
 `;
 
 function Detail(props: { item: PantryItem }) {
+  const user = useUser();
   const { item } = props;
 
   const quant = React.useMemo(() => {
@@ -42,8 +44,8 @@ function Detail(props: { item: PantryItem }) {
           <ItemName>{item.name}</ItemName>
         </div>
         <div>
-          <Button>use</Button>
-          <Button variant="danger">
+          <Button disabled={!user}>use</Button>
+          <Button disabled={!user} variant="danger">
             <i className="fas fa-trash" />
           </Button>
         </div>
