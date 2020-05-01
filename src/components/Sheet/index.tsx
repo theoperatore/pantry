@@ -64,7 +64,7 @@ export function Sheet(props: Props) {
   }, [props.isOpen, height]);
 
   React.useEffect(() => {
-    const newHeight = window.innerHeight * 0.5;
+    const newHeight = window.innerHeight * 0.75;
     setHeight(newHeight);
   }, []);
 

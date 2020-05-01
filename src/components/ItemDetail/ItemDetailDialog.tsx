@@ -1,6 +1,105 @@
 import React from 'react';
+import styled from 'styled-components';
+import formatDistanceToNowStrict from 'date-fns/formatDistanceToNowStrict';
+import format from 'date-fns/format';
 import { useItemDetailContext } from './ItemDetailContext';
 import { Sheet } from '../Sheet';
+import { PantryItem } from '../../schema/pantry';
+import { IconFreshness } from '../IconFreshness';
+import { Button } from '../Button';
+
+const IconImg = styled.img`
+  width: 75px;
+  height: 75px;
+`;
+
+const ItemName = styled.h3`
+  font-size: 1em;
+  font-weight: bold;
+`;
+
+const Subtext = styled.p`
+  font-size: 0.75em;
+  color: ${(props) => props.theme.colors.neutral};
+`;
+
+function Detail(props: { item: PantryItem }) {
+  const { item } = props;
+
+  const quant = React.useMemo(() => {
+    return props.item.quantities.filter((q) => !q.is_deleted);
+  }, [props.item.quantities]);
+
+  return (
+    <div>
+      <div className="horizontal vertical-next-to">
+        <div className="horizontal side-by-side">
+          <IconImg
+            className="next-to"
+            src={item.icon_url}
+            alt={item.name.charAt(0)}
+          />
+          <ItemName>{item.name}</ItemName>
+        </div>
+        <div>
+          <Button>use</Button>
+          <Button variant="danger">
+            <i className="fas fa-trash" />
+          </Button>
+        </div>
+      </div>
+      <div>
+        {quant.map((q) => (
+          <div
+            key={q.added_date_ts}
+            className="horizontal"
+            style={{
+              marginBottom: 'var(--spacing-nm)',
+              paddingBottom: 'var(--spacing-sm)',
+              borderBottom: '1px solid #ebebeb',
+            }}
+          >
+            <div>
+              <div className="vertical-right-next-to">
+                {formatDistanceToNowStrict(new Date(q.added_date_ts), {
+                  addSuffix: true,
+                })}
+              </div>
+              <Subtext>
+                {format(
+                  new Date(q.last_modified_ts),
+                  "'Last modified' LLL i, yyyy (EEEEEE)"
+                )}
+              </Subtext>
+            </div>
+            <div className="vertical end-vertical">
+              <div className="vertical-right-next-to">{q.quantity}pcs</div>
+              <div className="flex horizontal side-by-side center-content">
+                <IconFreshness
+                  className="fas fa-seedling right-next-to"
+                  isFresh={true}
+                />
+                <IconFreshness
+                  className="fas fa-seedling right-next-to"
+                  isFresh={true}
+                />
+                <IconFreshness
+                  className="fas fa-seedling right-next-to"
+                  isFresh={true}
+                />
+                <IconFreshness
+                  className="fas fa-seedling right-next-to"
+                  isFresh={false}
+                />
+                <IconFreshness className="fas fa-seedling " isFresh={false} />
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
 
 export function ItemDetailDialog() {
   const [state, dispatch] = useItemDetailContext();
@@ -11,21 +110,7 @@ export function ItemDetailDialog() {
 
   return (
     <Sheet isOpen={state.isOpen} onClose={handleClose}>
-      {state.item && (
-        <div>
-          <div className="horizontal side-by-side">
-            <img
-              className="next-to"
-              style={{ width: '75px', height: '75px' }}
-              src={state.item.icon_url}
-            />
-            <p>{state.item.name}</p>
-          </div>
-          <div>
-            <p>{JSON.stringify(state.item)}</p>
-          </div>
-        </div>
-      )}
+      {state.item && <Detail item={state.item} />}
     </Sheet>
   );
 }

@@ -1,10 +1,27 @@
 import styled from 'styled-components';
 
-export const Button = styled.button`
+export type ButtonVariant = 'primary' | 'danger';
+
+type ButtonProps = {
+  variant?: ButtonVariant;
+};
+
+function getColor(variant: ButtonVariant, theme: any) {
+  switch (variant) {
+    case 'primary':
+      return theme.colors.primary;
+    case 'danger':
+      return theme.colors.danger;
+    default:
+      return theme.colors.primary;
+  }
+}
+
+export const Button = styled.button<ButtonProps>`
   border: 0;
   border-radius: 5px;
   background-color: rgba(51, 51, 51, 0.05);
-  color: ${(props) => props.theme.colors.primary};
+  color: ${(props) => getColor(props.variant || 'primary', props.theme)};
   text-transform: uppercase;
   font-weight: bold;
   font-size: 0.75em;

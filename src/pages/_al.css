@@ -27,6 +27,12 @@
 .end-vertical {
   align-items: flex-end;
 }
+.vertical-right-next-to {
+  margin-bottom: var(--spacing-xs);
+}
+.vertical-next-to {
+  margin-bottom: var(--spacing-sm);
+}
 .right-next-to {
   margin-right: var(--spacing-xs);
 }

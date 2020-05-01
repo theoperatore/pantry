@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { useItemDetailContext } from '../ItemDetail/ItemDetailContext';
 import { PantryItem } from '../../schema/pantry';
+import { IconFreshness } from '../IconFreshness';
 
 const ItemContainer = styled.div`
   border-radius: 10px;
@@ -29,12 +30,6 @@ const IconLabel = styled.p<{ bold?: boolean }>`
 const IconSubLabel = styled.p`
   font-size: 0.75em;
   color: ${(props) => props.theme.colors.neutral};
-`;
-
-const IconFreshness = styled.i<{ isFresh?: boolean }>`
-  font-size: 0.75em;
-  color: ${(props) =>
-    props.isFresh ? props.theme.colors.freshness : 'rgba(0, 0, 0, 0.3)'};
 `;
 
 type Props = {
