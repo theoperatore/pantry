@@ -39,6 +39,11 @@ export async function bootstrapPantry() {
   result.map((r) => console.log(r.writeTime));
 }
 
+export function addItemToPantry(item: Omit<PantryItem, 'id'>) {
+  const firestore = getDb();
+  return firestore.collection('/pantry-items').doc().set(item);
+}
+
 export async function getPantry() {
   const firestore = getDb();
   const snapshot = await firestore.collection('/pantry-items').get();

@@ -21,7 +21,7 @@ Icons from [Icons8](https://icons8.com/icon/pack/food/cotton).
 2. `nvm install && nvm use` while in the root of this project
 3. Install [yarn](https://classic.yarnpkg.com/en/docs/install#alternatives-stable)
 4. `yarn install`
-5. Install the `now` cli via `yarn global install now`
+5. Install the `now` cli via `yarn global add now`
 6. `now env pull` to get development environment (it's prod secrets, we're not that fancy)
 7. `now dev` to start the local development environment
 

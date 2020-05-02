@@ -8,21 +8,7 @@ import { PantryItem } from '../../schema/pantry';
 import { IconFreshness } from '../IconFreshness';
 import { Button } from '../Button';
 import { useUser } from '../../auth/UserContext';
-
-const IconImg = styled.img`
-  width: 75px;
-  height: 75px;
-`;
-
-const ItemName = styled.h3`
-  font-size: 1em;
-  font-weight: bold;
-`;
-
-const Subtext = styled.p`
-  font-size: 0.75em;
-  color: ${(props) => props.theme.colors.neutral};
-`;
+import { IconImg, ItemName, Subtext } from './styles';
 
 function Detail(props: { item: PantryItem }) {
   const user = useUser();
