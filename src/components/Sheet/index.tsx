@@ -1,5 +1,5 @@
 import React from 'react';
-import { useSpring, a, config } from 'react-spring';
+import { useSpring, useTransition, animated as a, config } from 'react-spring';
 import { useDrag } from 'react-use-gesture';
 
 type Props = {
@@ -10,15 +10,20 @@ type Props = {
 
 // TODO: make this mount at the bottom by default
 export function Sheet(props: Props) {
-  const heightRef = React.useRef<HTMLDivElement>(null);
-  const [height, setHeight] = React.useState(0);
-  const [sheetHeight, setSheetHeight] = React.useState('100vh');
+  const [height, setHeight] = React.useState(1337);
+  const [screenHeight, setScreenHeight] = React.useState('100vh');
 
   const [{ y }, set] = useSpring(() => ({
     y: props.isOpen ? 0 : height,
     config: config.stiff,
     immediate: true,
   }));
+
+  const transitions = useTransition(props.isOpen, null, {
+    enter: { opacity: 1 },
+    from: { opacity: 0 },
+    leave: { opacity: 0 },
+  });
 
   const bind = useDrag(
     (state) => {
@@ -28,7 +33,7 @@ export function Sheet(props: Props) {
 
       // if the user drags up too far, then cancel this drag
       // and reset to open
-      if (my < -80) {
+      if (my < -120) {
         cancel && cancel();
       }
 
@@ -58,7 +63,7 @@ export function Sheet(props: Props) {
         top: 0,
       },
       rubberband: true,
-      initial: () => [0, y.get()],
+      initial: () => [0, y.getValue()],
     }
   );
 
@@ -77,42 +82,53 @@ export function Sheet(props: Props) {
 
   React.useEffect(() => {
     const isStandalone = (window.navigator as any).standalone;
-    setSheetHeight(isStandalone ? '100vh' : `${window.innerHeight}px`);
+    setScreenHeight(isStandalone ? '100vh' : `${window.innerHeight}px`);
   }, []);
 
   return (
     <>
-      {/* hook me up to a useTransition in order to get adding/removing from dom support*/}
-      <a.div
-        style={{
-          zIndex: y.to([0, height], [1, 0], 'clamp'),
-          visibility: props.isOpen ? 'visible' : 'hidden',
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          width: '100vw',
-          height: sheetHeight,
-          touchAction: 'none',
-          userSelect: 'none',
-          opacity: y.to([0, height], [1, 0], 'clamp'),
-          backgroundColor: 'rgba(0,0,0,0.7)',
-        }}
-        onClick={props.onClose}
-      />
+      {transitions.map(
+        ({ item, key, props: styleProps }) =>
+          item && (
+            <a.div
+              key={key}
+              style={{
+                ...styleProps,
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                width: '100vw',
+                height: screenHeight,
+                touchAction: 'none',
+                userSelect: 'none',
+                // TODO: this will cause a console warning for setting state on an
+                // unmounted component because y.interpolate seems to subscribe
+                // to some updates that arae happening...
+                // gonna leaave this here until v9 comes out
+                // backgroundColor: y.interpolate({
+                //   range: [0, height],
+                //   output: ['rgba(0,0,0,0.7)', 'rgba(0,0,0,0)'],
+                // }),
+
+                // TODO: uncomment out the above to enable a dynamic background
+                // based on user moving the sheet. That is way cooler but it
+                // can potentially cause a memory leak...too nervous to do it.
+                backgroundColor: 'rgba(0, 0, 0, 0.7)',
+              }}
+              onClick={props.onClose}
+            />
+          )
+      )}
       <a.div
         className="sheet"
         {...bind()}
         style={{
           bottom: `calc(-100vh + ${height}px)`,
           touchAction: 'none',
-          transform: y.to((val) => `translateY(${val}px)`),
+          transform: y.interpolate((val) => `translateY(${val}px)`),
         }}
       >
-        <div
-          className="sheet-content"
-          style={{ touchAction: 'none' }}
-          ref={heightRef}
-        >
+        <div className="sheet-content" style={{ touchAction: 'none' }}>
           {props.children}
         </div>
       </a.div>
