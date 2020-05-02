@@ -3,6 +3,8 @@ import { GetServerSideProps } from 'next';
 import Link from 'next/link';
 import useSwr from 'swr';
 import { useUser } from '../auth/UserContext';
+import fs from 'fs';
+import path from 'path';
 import {
   Button,
   AppBar,
@@ -14,6 +16,7 @@ import {
 } from '../components';
 import { PantryResponse } from '../schema/pantry';
 import { getPantry } from '../db';
+import { NewItemButton } from '../components/NewItemButton';
 
 async function pantryLoader(url: string) {
   const response = await fetch(url);
@@ -26,11 +29,12 @@ async function pantryLoader(url: string) {
 
 type Props = {
   initialData: PantryResponse;
+  foodImages: { image: string; name: string }[];
 };
 
 export default function Pantry(props: Props) {
   const user = useUser();
-  const { data, error } = useSwr('/api/pantry', pantryLoader, {
+  const { data, error, revalidate } = useSwr('/api/pantry', pantryLoader, {
     initialData: props.initialData,
   });
 
@@ -43,9 +47,10 @@ export default function Pantry(props: Props) {
           {/* <small>online</small> */}
         </div>
         <div>
-          <Button disabled title="Add a new pantry item">
-            new
-          </Button>
+          <NewItemButton
+            foodImages={props.foodImages}
+            onSaveSuccess={revalidate}
+          />
           {!user && (
             <Link href="/login">
               <Button disabled={!!user}>log in</Button>
@@ -67,10 +72,20 @@ export default function Pantry(props: Props) {
 
 export const getServerSideProps: GetServerSideProps = async () => {
   const pantryItems = await getPantry();
+  console.log(process.cwd());
+  const foodImages = fs.readdirSync(path.join(process.cwd(), '/public/foods'));
+  const foodImagesMap = foodImages.map((image) => {
+    const foodName = image.replace('icons8-', '').replace('-100.png', '');
+    return {
+      image,
+      name: foodName.replace('-', ''),
+    };
+  });
   const initialProps: Props = {
     initialData: {
       pantry: pantryItems,
     },
+    foodImages: foodImagesMap,
   };
 
   return {

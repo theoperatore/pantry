@@ -1,1 +1,1 @@
-export { getPantry } from './store';
+export { getPantry, addItemToPantry } from './store';

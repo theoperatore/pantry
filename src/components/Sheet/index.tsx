@@ -12,7 +12,10 @@ export function Sheet(props: Props) {
   const heightRef = React.useRef<HTMLDivElement>(null);
   const [height, setHeight] = React.useState(0);
   const [sheetHeight, setSheetHeight] = React.useState('100vh');
-  const [{ y }, set] = useSpring(() => ({ y: height, config: config.stiff }));
+  const [{ y }, set] = useSpring(() => ({
+    y: props.isOpen ? 0 : height,
+    config: config.stiff,
+  }));
   const bind = useDrag(
     (state) => {
       const { movement, swipe, cancel, last, down } = state;

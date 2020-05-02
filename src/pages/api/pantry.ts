@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { verifyUserToken } from '../../auth/admin';
-import { getPantry } from '../../db';
-import { PantryResponse } from '../../schema/pantry';
+import { getPantry, addItemToPantry } from '../../db';
+import { PantryResponse, PantryItem } from '../../schema/pantry';
 
 export default async function pantry(
   req: NextApiRequest,
@@ -23,7 +23,13 @@ export default async function pantry(
       return res.status(403).json({ status: 'NOT_AUTHORIZED' });
     }
 
-    return res.json({ status: 'user ok' });
+    const item: Omit<PantryItem, 'id'> = JSON.parse(req.body);
+    try {
+      await addItemToPantry(item);
+      return res.status(200).json({});
+    } catch (e) {
+      return res.status(500).json({ message: e });
+    }
   }
 
   // GET /api/pantry
