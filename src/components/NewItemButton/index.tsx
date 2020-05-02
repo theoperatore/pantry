@@ -65,6 +65,7 @@ export const NewItemButton = ({ foodImages, onSaveSuccess }: Props) => {
       <Button
         onClick={() => setShowNewDialog(true)}
         title="Add a new pantry item"
+        disabled={!user}
       >
         new
       </Button>

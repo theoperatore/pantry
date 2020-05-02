@@ -3,8 +3,6 @@ import { GetServerSideProps } from 'next';
 import Link from 'next/link';
 import useSwr from 'swr';
 import { useUser } from '../auth/UserContext';
-import fs from 'fs';
-import path from 'path';
 import {
   Button,
   AppBar,
@@ -17,6 +15,7 @@ import {
 import { PantryResponse } from '../schema/pantry';
 import { getPantry } from '../db';
 import { NewItemButton } from '../components/NewItemButton';
+import { FOOD_IMAGES } from '../lib/foodImages';
 
 async function pantryLoader(url: string) {
   const response = await fetch(url);
@@ -72,9 +71,7 @@ export default function Pantry(props: Props) {
 
 export const getServerSideProps: GetServerSideProps = async () => {
   const pantryItems = await getPantry();
-  console.log(process.cwd());
-  const foodImages = fs.readdirSync(path.join(process.cwd(), '/public/foods'));
-  const foodImagesMap = foodImages.map((image) => {
+  const foodImagesMap = FOOD_IMAGES.map((image) => {
     const foodName = image.replace('icons8-', '').replace('-100.png', '');
     return {
       image,
