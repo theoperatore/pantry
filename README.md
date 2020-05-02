@@ -4,7 +4,8 @@ A small next.js web-app that tracks what we currently have in our pantry. Each p
 
 The most interesting part is the raspberry pi touch screen setup that is next to the pantry that is running the app. Helps with keeping it up-to-date when using items in the pantry! :)
 
-Icons from [Icons8](https://icons8.com/icon/pack/food/cotton).
+- Icons from [Icons8](https://icons8.com/icon/pack/food/cotton)
+- [Color scheme](https://mycolor.space/?hex=%23845EC2&sub=1)
 
 # Tech and hardware
 
