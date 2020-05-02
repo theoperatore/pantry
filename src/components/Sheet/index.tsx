@@ -101,19 +101,17 @@ export function Sheet(props: Props) {
                 height: screenHeight,
                 touchAction: 'none',
                 userSelect: 'none',
-                // TODO: this will cause a console warning for setting state on an
-                // unmounted component because y.interpolate seems to subscribe
-                // to some updates that arae happening...
-                // gonna leaave this here until v9 comes out
-                // backgroundColor: y.interpolate({
-                //   range: [0, height],
-                //   output: ['rgba(0,0,0,0.7)', 'rgba(0,0,0,0)'],
-                // }),
-
-                // TODO: uncomment out the above to enable a dynamic background
-                // based on user moving the sheet. That is way cooler but it
-                // can potentially cause a memory leak...too nervous to do it.
-                backgroundColor: 'rgba(0, 0, 0, 0.7)',
+                // NOTE: This subscription to y.interpolate needs to be dynamically
+                // added and removed in order to prevent a "setState on unmounted component".
+                // When the sheet is open, change the background color based on the user dragging
+                // the sheet itself. When the sheet is closed, then rely on the opacity to
+                // cause fading via the useTransition and hard code the background color.
+                backgroundColor: props.isOpen
+                  ? y.interpolate({
+                      range: [0, height],
+                      output: ['rgba(0,0,0,0.7)', 'rgba(0,0,0,0)'],
+                    })
+                  : 'rgba(0, 0, 0, 0.7)',
               }}
               onClick={props.onClose}
             />
