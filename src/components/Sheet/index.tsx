@@ -8,14 +8,18 @@ type Props = {
   children: React.ReactNode;
 };
 
+// TODO: make this mount at the bottom by default
 export function Sheet(props: Props) {
   const heightRef = React.useRef<HTMLDivElement>(null);
   const [height, setHeight] = React.useState(0);
   const [sheetHeight, setSheetHeight] = React.useState('100vh');
+
   const [{ y }, set] = useSpring(() => ({
     y: props.isOpen ? 0 : height,
     config: config.stiff,
+    immediate: true,
   }));
+
   const bind = useDrag(
     (state) => {
       const { movement, swipe, cancel, last, down } = state;
@@ -78,6 +82,7 @@ export function Sheet(props: Props) {
 
   return (
     <>
+      {/* hook me up to a useTransition in order to get adding/removing from dom support*/}
       <a.div
         style={{
           zIndex: y.to([0, height], [1, 0], 'clamp'),
@@ -90,11 +95,7 @@ export function Sheet(props: Props) {
           touchAction: 'none',
           userSelect: 'none',
           opacity: y.to([0, height], [1, 0], 'clamp'),
-          backgroundColor: y.to(
-            [height, 0],
-            ['rgba(0,0,0,0)', 'rgba(0,0,0,0.7)'],
-            'clamp'
-          ),
+          backgroundColor: 'rgba(0,0,0,0.7)',
         }}
         onClick={props.onClose}
       />

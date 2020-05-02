@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import formatDistanceToNowStrict from 'date-fns/formatDistanceToNowStrict';
 import { useItemDetailContext } from '../ItemDetail/ItemDetailContext';
 import { PantryItem } from '../../schema/pantry';
 import { IconFreshness } from '../IconFreshness';
@@ -43,8 +44,18 @@ export function Item(props: Props) {
     dispatch({ type: 'dialogStateSetAction', pantryItem: props.item });
   }
 
-  const { icon_url, name, quantities } = props.item;
-  const total = quantities.reduce((sum, q) => sum + q.quantity, 0);
+  const { icon_url, name } = props.item;
+
+  const quant = React.useMemo(() => {
+    return props.item.quantities.filter((q) => !q.is_deleted);
+  }, [props.item.quantities]);
+
+  const total = quant.reduce((sum, q) => sum + q.quantity, 0);
+
+  const earliest = quant.reduce(
+    (e, q) => (e < q.added_date_ts ? e : q.added_date_ts),
+    Infinity
+  );
 
   return (
     <ItemContainer onClick={handleClick}>
@@ -54,7 +65,12 @@ export function Item(props: Props) {
         </div>
         <div className="flex vertical center-vertical">
           <IconLabel bold>{name}</IconLabel>
-          <IconSubLabel>3 days ago</IconSubLabel>
+          <IconSubLabel>
+            {earliest !== Infinity &&
+              `stocked ${formatDistanceToNowStrict(new Date(earliest), {
+                addSuffix: true,
+              })}`}
+          </IconSubLabel>
         </div>
         <div className="flex vertical center-vertical end-vertical">
           <IconLabel>{total}pcs</IconLabel>
