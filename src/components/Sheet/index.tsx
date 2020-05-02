@@ -10,13 +10,12 @@ type Props = {
 
 // TODO: make this mount at the bottom by default
 export function Sheet(props: Props) {
-  const [height, setHeight] = React.useState(1337);
+  const [height, setHeight] = React.useState(0);
   const [screenHeight, setScreenHeight] = React.useState('100vh');
 
   const [{ y }, set] = useSpring(() => ({
     y: props.isOpen ? 0 : height,
     config: config.stiff,
-    immediate: true,
   }));
 
   const transitions = useTransition(props.isOpen, null, {
@@ -30,10 +29,11 @@ export function Sheet(props: Props) {
       const { movement, swipe, cancel, last, down } = state;
       const [, my] = movement;
       const [, sy] = swipe;
+      const nextPlace = height + (height - my);
 
       // if the user drags up too far, then cancel this drag
       // and reset to open
-      if (my < -120) {
+      if (nextPlace > height + 100) {
         cancel && cancel();
       }
 
@@ -43,14 +43,14 @@ export function Sheet(props: Props) {
         return;
       }
 
-      if (last && my > height * 0.75) {
+      if (last && nextPlace < height * 0.75) {
         props.onClose();
         return;
       }
 
       set({
         immediate: false,
-        y: down ? my : 0,
+        y: down ? nextPlace : height,
         config: {
           tension: 300,
           friction: 20,
@@ -60,7 +60,7 @@ export function Sheet(props: Props) {
     {
       axis: 'y',
       bounds: {
-        top: 0,
+        top: height,
       },
       rubberband: true,
       initial: () => [0, y.getValue()],
@@ -69,9 +69,17 @@ export function Sheet(props: Props) {
 
   React.useEffect(() => {
     if (props.isOpen) {
-      set({ y: 0, immediate: false });
+      set({
+        y: height,
+        immediate: false,
+        config: { ...config.stiff, clamp: false },
+      });
     } else {
-      set({ y: height, immediate: false });
+      set({
+        y: 0,
+        immediate: false,
+        config: { ...config.stiff, clamp: true },
+      });
     }
   }, [props.isOpen, height]);
 
@@ -94,24 +102,30 @@ export function Sheet(props: Props) {
               key={key}
               style={{
                 ...styleProps,
-                position: 'absolute',
+                position: 'fixed',
                 top: 0,
                 left: 0,
                 width: '100vw',
                 height: screenHeight,
-                touchAction: 'none',
-                userSelect: 'none',
+                touchAction: props.isOpen ? 'none' : 'auto',
+                userSelect: props.isOpen ? 'none' : 'unset',
                 // NOTE: This subscription to y.interpolate needs to be dynamically
                 // added and removed in order to prevent a "setState on unmounted component".
                 // When the sheet is open, change the background color based on the user dragging
                 // the sheet itself. When the sheet is closed, then rely on the opacity to
-                // cause fading via the useTransition and hard code the background color.
+                // cause fading via the useTransition and hard code the background color
+                // to the last interpolated value.
                 backgroundColor: props.isOpen
                   ? y.interpolate({
-                      range: [0, height],
+                      range: [height, 0],
                       output: ['rgba(0,0,0,0.7)', 'rgba(0,0,0,0)'],
                     })
-                  : 'rgba(0, 0, 0, 0.7)',
+                  : y
+                      .interpolate({
+                        range: [height, 0],
+                        output: ['rgba(0,0,0,0.7)', 'rgba(0,0,0,0)'],
+                      })
+                      .getValue(),
               }}
               onClick={props.onClose}
             />
@@ -121,9 +135,9 @@ export function Sheet(props: Props) {
         className="sheet"
         {...bind()}
         style={{
-          bottom: `calc(-100vh + ${height}px)`,
+          top: screenHeight,
           touchAction: 'none',
-          transform: y.interpolate((val) => `translateY(${val}px)`),
+          transform: y.interpolate((val) => `translateY(-${val}px)`),
         }}
       >
         <div className="sheet-content" style={{ touchAction: 'none' }}>

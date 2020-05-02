@@ -16,6 +16,14 @@ export const AppBarComp = styled.div<{ isScrolled: boolean }>`
     props.isScrolled ? '0 0 10px 4px rgba(0, 0, 0, 0.12)' : null};
   background-color: white;
   transition: box-shadow 300ms ease-in-out;
+
+  /* provide as many hints to the browser as possible
+   * that this fixed item should be rendered correctly and not jitter.
+   * It'll never be enough though... :(
+   */
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+  will-change: scroll-position contents;
 `;
 
 type Props = {
