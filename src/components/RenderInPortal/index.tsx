@@ -18,7 +18,6 @@ export const RenderInPortal = ({
       container.current = null;
     };
   }, []);
-  console.log('rendering...', container.current);
   if (!container.current) return null;
   return createPortal(children, container.current);
 };

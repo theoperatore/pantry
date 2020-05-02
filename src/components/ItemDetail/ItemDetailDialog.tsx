@@ -49,6 +49,7 @@ function Detail(props: { item: PantryItem }) {
           >
             <div>
               <div className="vertical-right-next-to">
+                stocked{' '}
                 {formatDistanceToNowStrict(new Date(q.added_date_ts), {
                   addSuffix: true,
                 })}
