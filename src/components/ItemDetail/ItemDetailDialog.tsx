@@ -147,25 +147,45 @@ function Detail(props: { item: PantryItem; onUpdate: () => Promise<boolean> }) {
             }}
           />
         </div>
-        <div className="horizontal end">
-          <Button
-            variant="danger"
-            onClick={() => setCount('')}
-            disabled={status === 'pending'}
-          >
-            clear
-          </Button>
-          <Button
-            disabled={
-              !user ||
-              Number(count) === 0 ||
-              isNaN(Number(count)) ||
-              status === 'pending'
-            }
-            onClick={handleAddQuantity}
-          >
-            add
-          </Button>
+        <div className="horizontal">
+          <div>
+            <Button
+              onClick={() =>
+                setCount((c) => (isNaN(Number(c)) ? '1' : `${Number(c) + 1}`))
+              }
+            >
+              <i className="fas fa-plus" />
+            </Button>
+            <Button
+              onClick={() =>
+                setCount((c) =>
+                  isNaN(Number(c)) ? '1' : `${Math.max(Number(c) - 1, 1)}`
+                )
+              }
+            >
+              <i className="fas fa-minus" />
+            </Button>
+          </div>
+          <div className="flex horizontal end">
+            <Button
+              variant="danger"
+              onClick={() => setCount('')}
+              disabled={status === 'pending'}
+            >
+              clear
+            </Button>
+            <Button
+              disabled={
+                !user ||
+                Number(count) === 0 ||
+                isNaN(Number(count)) ||
+                status === 'pending'
+              }
+              onClick={handleAddQuantity}
+            >
+              add
+            </Button>
+          </div>
         </div>
       </div>
     </div>
