@@ -136,6 +136,8 @@ function Detail(props: { item: PantryItem; onUpdate: () => Promise<boolean> }) {
         <p className="vertical-next-to">Add quantity</p>
         <div className="vertical-next-to">
           <Input
+            inputMode="decimal"
+            pattern="\d*"
             placeholder="Number of items"
             type="number"
             value={count}
@@ -151,19 +153,19 @@ function Detail(props: { item: PantryItem; onUpdate: () => Promise<boolean> }) {
           <div>
             <Button
               onClick={() =>
-                setCount((c) => (isNaN(Number(c)) ? '1' : `${Number(c) + 1}`))
-              }
-            >
-              <i className="fas fa-plus" />
-            </Button>
-            <Button
-              onClick={() =>
                 setCount((c) =>
                   isNaN(Number(c)) ? '1' : `${Math.max(Number(c) - 1, 1)}`
                 )
               }
             >
               <i className="fas fa-minus" />
+            </Button>
+            <Button
+              onClick={() =>
+                setCount((c) => (isNaN(Number(c)) ? '1' : `${Number(c) + 1}`))
+              }
+            >
+              <i className="fas fa-plus" />
             </Button>
           </div>
           <div className="flex horizontal end">
