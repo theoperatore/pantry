@@ -42,7 +42,7 @@ export const NewItemButton = ({ foodImages, onSaveSuccess }: Props) => {
     name && name.length && expiresValue && expiresUnit && icon;
 
   const addItem = async () => {
-    const item: Omit<PantryItem, 'id'> = {
+    const item: Omit<Omit<PantryItem, 'id'>, 'created_at_ts'> = {
       name,
       icon_url: `/foods/${icon.image}`,
       is_deleted: false,
