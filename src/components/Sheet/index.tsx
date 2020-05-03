@@ -11,7 +11,6 @@ type Props = {
 // TODO: make this mount at the bottom by default
 export function Sheet(props: Props) {
   const [height, setHeight] = React.useState(0);
-  const [screenHeight, setScreenHeight] = React.useState('100vh');
 
   const [{ y }, set] = useSpring(() => ({
     y: props.isOpen ? 0 : height,
@@ -88,11 +87,6 @@ export function Sheet(props: Props) {
     setHeight(newHeight);
   }, []);
 
-  React.useEffect(() => {
-    const isStandalone = (window.navigator as any).standalone;
-    setScreenHeight(isStandalone ? '100vh' : `${window.innerHeight}px`);
-  }, []);
-
   return (
     <>
       {transitions.map(
@@ -107,7 +101,7 @@ export function Sheet(props: Props) {
                 top: 0,
                 left: 0,
                 width: '100vw',
-                height: screenHeight,
+                height: '100vh',
                 touchAction: props.isOpen ? 'none' : 'auto',
                 userSelect: props.isOpen ? 'none' : 'unset',
                 // NOTE: This subscription to y.interpolate needs to be dynamically
@@ -136,7 +130,7 @@ export function Sheet(props: Props) {
         className="sheet"
         {...bind()}
         style={{
-          top: screenHeight,
+          top: '100vh',
           touchAction: 'none',
           transform: y.interpolate((val) => `translateY(-${val}px)`),
         }}
