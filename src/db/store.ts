@@ -1,6 +1,5 @@
-import * as admin from 'firebase-admin';
 import { getDb } from './getDb';
-import { PantryResponse, PantryItem } from '../schema/pantry';
+import { PantryItem } from '../schema/pantry';
 
 /**
  * @deprecated
@@ -8,10 +7,10 @@ import { PantryResponse, PantryItem } from '../schema/pantry';
  * for initial app testing
  */
 export async function bootstrapPantry() {
-  const testPantry: PantryResponse = {
+  const testPantry: { pantry: Omit<PantryItem, 'id'>[] } = {
     pantry: [
       {
-        id: '',
+        created_at_ts: new Date(2020, 3, 20).getTime(),
         expires_in: '2w',
         is_deleted: false,
         name: 'Broccoli',
@@ -19,10 +18,16 @@ export async function bootstrapPantry() {
         quantity_type: 'unit',
         quantities: [
           {
-            added_date_ts: new Date(2020, 4, 20).getTime(),
+            added_date_ts: new Date(2020, 3, 20).getTime(),
             is_deleted: false,
-            last_modified_ts: new Date(2020, 4, 23).getTime(),
+            last_modified_ts: new Date(2020, 3, 23).getTime(),
             quantity: 2,
+          },
+          {
+            added_date_ts: new Date(2020, 4, 1).getTime(),
+            is_deleted: false,
+            last_modified_ts: new Date(2020, 4, 2).getTime(),
+            quantity: 5,
           },
         ],
       },
@@ -39,14 +44,25 @@ export async function bootstrapPantry() {
   result.map((r) => console.log(r.writeTime));
 }
 
-export function addItemToPantry(item: Omit<PantryItem, 'id'>) {
+export function addItemToPantry(
+  item: Omit<Omit<PantryItem, 'id'>, 'created_at_ts'>
+) {
   const firestore = getDb();
-  return firestore.collection('/pantry-items').doc().set(item);
+  const doc = {
+    ...item,
+    created_at_ts: Date.now(),
+  };
+
+  return firestore.collection('/pantry-items').doc().set(doc);
 }
 
 export async function getPantry() {
   const firestore = getDb();
-  const snapshot = await firestore.collection('/pantry-items').get();
+  const snapshot = await firestore
+    .collection('/pantry-items')
+    .orderBy('created_at_ts', 'asc')
+    .get();
+
   const docs: PantryItem[] = snapshot.docs.map<PantryItem>((doc) => {
     const data = doc.data() as PantryItem;
 

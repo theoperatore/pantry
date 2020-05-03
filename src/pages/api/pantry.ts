@@ -2,11 +2,17 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import { verifyUserToken } from '../../auth/admin';
 import { getPantry, addItemToPantry } from '../../db';
 import { PantryResponse, PantryItem } from '../../schema/pantry';
+import { bootstrapPantry } from '../../db/store';
 
 export default async function pantry(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
+  // if (req.method === 'PUT') {
+  //   await bootstrapPantry();
+  //   return res.status(200).end();
+  // }
+
   // POST /api/pantry
   // // TODO: put all of this mutation logic in a helper function
   if (req.method === 'POST') {
@@ -23,7 +29,9 @@ export default async function pantry(
       return res.status(403).json({ status: 'NOT_AUTHORIZED' });
     }
 
-    const item: Omit<PantryItem, 'id'> = JSON.parse(req.body);
+    const item: Omit<Omit<PantryItem, 'id'>, 'created_at_ts'> = JSON.parse(
+      req.body
+    );
     try {
       await addItemToPantry(item);
       return res.status(200).json({});

@@ -8,6 +8,7 @@ export type PantryItem = {
   icon_url: string;
   is_deleted: boolean;
   expires_in: string;
+  created_at_ts: number;
   quantity_type: 'range' | 'unit';
   quantities: Quantity[];
 };
