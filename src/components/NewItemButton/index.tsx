@@ -50,15 +50,20 @@ export const NewItemButton = ({ foodImages, onSaveSuccess }: Props) => {
       quantity_type: 'unit',
       quantities: [],
     };
-    await fetch('/api/pantry', {
+    const response = await fetch('/api/pantry', {
       method: 'POST',
       body: JSON.stringify(item),
       headers: {
         authorization: `token ${user}`,
       },
     });
-    onSaveSuccess();
-    setShowNewDialog(false);
+    if (response.ok) {
+      onSaveSuccess();
+      setShowNewDialog(false);
+    } else {
+      const { status } = await response.json();
+      alert(status);
+    }
   };
   return (
     <>

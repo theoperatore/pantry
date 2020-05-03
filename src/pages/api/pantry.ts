@@ -34,9 +34,10 @@ export default async function pantry(
     );
     try {
       await addItemToPantry(item);
-      return res.status(200).json({});
+      return res.status(200).json({ status: 'OK' });
     } catch (e) {
-      return res.status(500).json({ message: e });
+      console.error(e);
+      return res.status(500).json({ status: e.message });
     }
   }
 
