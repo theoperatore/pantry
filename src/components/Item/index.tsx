@@ -5,11 +5,12 @@ import { useItemDetailContext } from '../ItemDetail/ItemDetailContext';
 import { PantryItem } from '../../schema/pantry';
 import { IconFreshness } from '../IconFreshness';
 
-const ItemContainer = styled.div`
+const ItemContainer = styled.div<{ empty?: boolean }>`
   border-radius: 10px;
   padding: ${(props) => props.theme.spacing.sm};
   margin-bottom: ${(props) => props.theme.spacing.sm};
-  box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.1);
+  box-shadow: ${(props) =>
+    props.empty ? null : '0px 5px 10px 0px rgba(0, 0, 0, 0.1)'};
   transition: box-shadow 0.2s ease;
   border: 1px solid rgba(0, 0, 0, 0.125);
 
@@ -18,9 +19,10 @@ const ItemContainer = styled.div`
   }
 `;
 
-const IconImg = styled.img`
+const IconImg = styled.img<{ empty?: boolean }>`
   height: 48px;
   width: 48px;
+  opacity: ${(props) => (props.empty ? 0.25 : 1)};
 `;
 
 const IconLabel = styled.p<{ bold?: boolean }>`
@@ -58,10 +60,14 @@ export function Item(props: Props) {
   );
 
   return (
-    <ItemContainer onClick={handleClick}>
+    <ItemContainer
+      onClick={handleClick}
+      className={total === 0 ? 'disabled' : ''}
+      empty={total === 0}
+    >
       <div className="horizontal">
         <div className="center right-next-to">
-          <IconImg src={icon_url} alt={name.charAt(0)} />
+          <IconImg src={icon_url} alt={name.charAt(0)} empty={total === 0} />
         </div>
         <div className="flex vertical center-vertical">
           <IconLabel bold>{name}</IconLabel>
@@ -77,15 +83,15 @@ export function Item(props: Props) {
           <div className="horizontal side-by-side">
             <IconFreshness
               className="fas fa-seedling right-next-to"
-              isFresh={true}
+              isFresh={total === 0 ? false : true}
             />
             <IconFreshness
               className="fas fa-seedling right-next-to"
-              isFresh={true}
+              isFresh={total === 0 ? false : true}
             />
             <IconFreshness
               className="fas fa-seedling right-next-to"
-              isFresh={true}
+              isFresh={total === 0 ? false : true}
             />
             <IconFreshness
               className="fas fa-seedling right-next-to"
