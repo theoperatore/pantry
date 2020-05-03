@@ -73,7 +73,7 @@ export function Item(props: Props) {
           <IconLabel bold>{name}</IconLabel>
           <IconSubLabel>
             {earliest !== Infinity &&
-              `stocked ${formatDistanceToNowStrict(new Date(earliest), {
+              `Stocked ${formatDistanceToNowStrict(new Date(earliest), {
                 addSuffix: true,
               })}`}
           </IconSubLabel>

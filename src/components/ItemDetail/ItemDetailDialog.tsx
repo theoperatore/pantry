@@ -10,7 +10,17 @@ import { Button } from '../Button';
 import { useUser } from '../../auth/UserContext';
 import { IconImg, ItemName, Subtext } from './styles';
 
-function Detail(props: { item: PantryItem }) {
+const Input = styled.input`
+  font-size: 1em;
+  padding: ${({ theme }) => `${theme.spacing.sm} ${theme.spacing.xs}`};
+  width: 100%;
+  border-radius: 5px;
+  border: 1px solid #ebebeb;
+`;
+
+function Detail(props: { item: PantryItem; onUpdate: () => Promise<boolean> }) {
+  const [count, setCount] = React.useState('');
+  const [status, setStatus] = React.useState('');
   const user = useUser();
   const { item } = props;
 
@@ -19,6 +29,44 @@ function Detail(props: { item: PantryItem }) {
   }, [props.item.quantities]);
 
   const hasNone = quant.reduce((s, q) => s + q.quantity, 0) === 0;
+
+  async function handleAddQuantity() {
+    const num = Number(count);
+
+    if (!user) return;
+    if (isNaN(num)) return;
+
+    setStatus('pending');
+    try {
+      const response = await fetch(`/api/item/${item.id}/quantities`, {
+        method: 'POST',
+        headers: {
+          authorization: `token ${user}`,
+          accept: 'application/json',
+          'content-type': 'application/json',
+        },
+        body: JSON.stringify({
+          quantity: num,
+        }),
+      });
+
+      if (response.ok) {
+        // revalidate
+        setCount('');
+        await props.onUpdate();
+      } else {
+        alert(
+          `Failed to add quantity: ${response.status}, ${response.statusText}`
+        );
+      }
+    } catch (error) {
+      console.error(error);
+      alert(`Failed to add quantity: ${error.message}`);
+    }
+
+    // reset form status no matter what
+    setStatus('');
+  }
 
   return (
     <div>
@@ -29,7 +77,10 @@ function Detail(props: { item: PantryItem }) {
             src={item.icon_url}
             alt={item.name.charAt(0)}
           />
-          <ItemName>{item.name}</ItemName>
+          <div>
+            <ItemName className="vertical-right-next-to">{item.name}</ItemName>
+            <Subtext>Fresh for {item.expires_in}</Subtext>
+          </div>
         </div>
         <div>
           <Button disabled={!user || hasNone}>use</Button>
@@ -38,7 +89,7 @@ function Detail(props: { item: PantryItem }) {
           </Button>
         </div>
       </div>
-      <div>
+      <div className="vertical-next-to">
         {quant.map((q) => (
           <div
             key={q.added_date_ts}
@@ -51,7 +102,7 @@ function Detail(props: { item: PantryItem }) {
           >
             <div>
               <div className="vertical-right-next-to">
-                stocked{' '}
+                Stocked{' '}
                 {formatDistanceToNowStrict(new Date(q.added_date_ts), {
                   addSuffix: true,
                 })}
@@ -91,20 +142,65 @@ function Detail(props: { item: PantryItem }) {
           </div>
         ))}
       </div>
+      <div className={!user ? 'disabled' : ''}>
+        <p className="vertical-next-to">Add quantity</p>
+        <div className="vertical-next-to">
+          <Input
+            placeholder="Number of items"
+            value={count}
+            onChange={(ev) => {
+              const val = ev.target.value;
+              if (!isNaN(Number(val))) {
+                setCount(val);
+              }
+            }}
+          />
+        </div>
+        <div className="horizontal end">
+          <Button
+            variant="danger"
+            onClick={() => setCount('')}
+            disabled={status === 'pending'}
+          >
+            clear
+          </Button>
+          <Button
+            disabled={
+              !user ||
+              Number(count) === 0 ||
+              isNaN(Number(count)) ||
+              status === 'pending'
+            }
+            onClick={handleAddQuantity}
+          >
+            add
+          </Button>
+        </div>
+      </div>
     </div>
   );
 }
 
-export function ItemDetailDialog() {
+type Props = {
+  revalidate: () => Promise<boolean>;
+};
+
+export function ItemDetailDialog(props: Props) {
   const [state, dispatch] = useItemDetailContext();
 
   function handleClose() {
     dispatch({ type: 'dialogStateClearAction' });
   }
 
+  async function handleUpdate() {
+    const out = await props.revalidate();
+    handleClose();
+    return out;
+  }
+
   return (
     <Sheet isOpen={state.isOpen} onClose={handleClose}>
-      {state.item && <Detail item={state.item} />}
+      {state.item && <Detail item={state.item} onUpdate={handleUpdate} />}
     </Sheet>
   );
 }

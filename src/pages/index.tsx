@@ -64,7 +64,7 @@ export default function Pantry(props: Props) {
             <Item key={pantryItem.id} item={pantryItem} />
           ))}
       </ContentLayout>
-      <ItemDetailDialog />
+      <ItemDetailDialog revalidate={revalidate} />
     </ItemDetailProvider>
   );
 }
