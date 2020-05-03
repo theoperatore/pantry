@@ -24,6 +24,7 @@ export const AppBarComp = styled.div<{ isScrolled: boolean }>`
   transform: translate3d(0, 0, 0);
   backface-visibility: hidden;
   will-change: scroll-position contents;
+  z-index: 1;
 `;
 
 type Props = {

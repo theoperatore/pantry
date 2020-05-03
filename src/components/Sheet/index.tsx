@@ -102,6 +102,7 @@ export function Sheet(props: Props) {
               key={key}
               style={{
                 ...styleProps,
+                zIndex: 1,
                 position: 'fixed',
                 top: 0,
                 left: 0,
