@@ -18,6 +18,8 @@ function Detail(props: { item: PantryItem }) {
     return props.item.quantities.filter((q) => !q.is_deleted);
   }, [props.item.quantities]);
 
+  const hasNone = quant.reduce((s, q) => s + q.quantity, 0) === 0;
+
   return (
     <div>
       <div className="horizontal vertical-next-to">
@@ -30,7 +32,7 @@ function Detail(props: { item: PantryItem }) {
           <ItemName>{item.name}</ItemName>
         </div>
         <div>
-          <Button disabled={!user}>use</Button>
+          <Button disabled={!user || hasNone}>use</Button>
           <Button disabled={!user} variant="danger">
             <i className="fas fa-trash" />
           </Button>
@@ -62,7 +64,10 @@ function Detail(props: { item: PantryItem }) {
               </Subtext>
             </div>
             <div className="vertical end-vertical">
-              <div className="vertical-right-next-to">{q.quantity}pcs</div>
+              <div className="vertical-right-next-to">
+                {q.quantity}
+                {item.quantity_type === 'unit' ? 'pcs' : 'pct'}
+              </div>
               <div className="flex horizontal side-by-side center-content">
                 <IconFreshness
                   className="fas fa-seedling right-next-to"

@@ -46,7 +46,7 @@ export function Item(props: Props) {
     dispatch({ type: 'dialogStateSetAction', pantryItem: props.item });
   }
 
-  const { icon_url, name } = props.item;
+  const { icon_url, name, quantity_type } = props.item;
 
   const quant = React.useMemo(() => {
     return props.item.quantities.filter((q) => !q.is_deleted);
@@ -79,7 +79,10 @@ export function Item(props: Props) {
           </IconSubLabel>
         </div>
         <div className="flex vertical center-vertical end-vertical">
-          <IconLabel>{total}pcs</IconLabel>
+          <IconLabel>
+            {total}
+            {quantity_type === 'unit' ? 'pcs' : 'pct'}
+          </IconLabel>
           <div className="horizontal side-by-side">
             <IconFreshness
               className="fas fa-seedling right-next-to"
