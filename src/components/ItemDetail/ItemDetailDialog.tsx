@@ -9,6 +9,7 @@ import { IconFreshness } from '../IconFreshness';
 import { Button } from '../Button';
 import { useUser } from '../../auth/UserContext';
 import { IconImg, ItemName, Subtext } from './styles';
+import { addQuantityToItem } from '../../api';
 
 const Input = styled.input`
   font-size: 1em;
@@ -38,18 +39,7 @@ function Detail(props: { item: PantryItem; onUpdate: () => Promise<boolean> }) {
 
     setStatus('pending');
     try {
-      const response = await fetch(`/api/item/${item.id}/quantities`, {
-        method: 'POST',
-        headers: {
-          authorization: `token ${user}`,
-          accept: 'application/json',
-          'content-type': 'application/json',
-        },
-        body: JSON.stringify({
-          quantity: num,
-        }),
-      });
-
+      const response = await addQuantityToItem(user, item.id, num);
       if (response.ok) {
         // revalidate
         setCount('');
@@ -147,6 +137,7 @@ function Detail(props: { item: PantryItem; onUpdate: () => Promise<boolean> }) {
         <div className="vertical-next-to">
           <Input
             placeholder="Number of items"
+            type="number"
             value={count}
             onChange={(ev) => {
               const val = ev.target.value;

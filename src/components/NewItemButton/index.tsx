@@ -6,6 +6,7 @@ import { IconImg } from '../ItemDetail/styles';
 import styled from 'styled-components';
 import { PantryItem } from '../../schema/pantry';
 import { useUser } from '../../auth/UserContext';
+import { addItemTopPantry } from '../../api';
 
 const IconChoices = styled.div`
   overflow-y: scroll;
@@ -42,6 +43,8 @@ export const NewItemButton = ({ foodImages, onSaveSuccess }: Props) => {
     name && name.length && expiresValue && expiresUnit && icon;
 
   const addItem = async () => {
+    if (!user) return;
+
     const item: Omit<Omit<PantryItem, 'id'>, 'created_at_ts'> = {
       name,
       icon_url: `/foods/${icon.image}`,
@@ -50,19 +53,18 @@ export const NewItemButton = ({ foodImages, onSaveSuccess }: Props) => {
       quantity_type: 'unit',
       quantities: [],
     };
-    const response = await fetch('/api/pantry', {
-      method: 'POST',
-      body: JSON.stringify(item),
-      headers: {
-        authorization: `token ${user}`,
-      },
-    });
-    if (response.ok) {
-      onSaveSuccess();
-      setShowNewDialog(false);
-    } else {
-      const { status } = await response.json();
-      alert(status);
+
+    try {
+      const response = await addItemTopPantry(user, item);
+      if (response.ok) {
+        onSaveSuccess();
+        setShowNewDialog(false);
+      } else {
+        const { status } = await response.json();
+        alert(status);
+      }
+    } catch (error) {
+      alert(`Failed to add item: ${error.message}`);
     }
   };
   return (
