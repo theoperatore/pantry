@@ -49,7 +49,7 @@ export default class MyApp extends App {
           <link rel="manifest" href="/manifest.json?id=2" />
           <meta
             name="viewport"
-            content="width=device-width, initial-scale=1, user-scalable=no, viewport-fit=cover"
+            content="width=device-width, height=device-height, initial-scale=1.0, viewport-fit=cover, user-scalable=no;user-scalable=0;"
           />
           <meta
             name="description"
