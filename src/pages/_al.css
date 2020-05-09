@@ -93,5 +93,14 @@ body {
 .sheet-content {
   user-select: none;
   padding: 12px;
-  overflow: hidden;
+  padding-top: 0;
+  overflow-y: auto;
+  height: 60vh;
+}
+
+@media all and (display-mode: standalone) {
+  /* Here goes the CSS rules that will only apply if app is running standalone */
+  .sheet-content {
+    height: 75vh;
+  }
 }
