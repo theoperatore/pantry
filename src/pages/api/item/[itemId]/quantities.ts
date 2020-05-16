@@ -1,29 +1,12 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import * as admin from 'firebase-admin';
-import { parseToken } from '../../../../auth/token';
-import { verifyUserToken } from '../../../../auth/admin';
-import { getDb } from '../../../../db/getDb';
-import { Quantity } from '../../../../schema/pantry';
+import { withAuthMiddleware } from '../../../../auth/middleware';
+import { addQuantityToItem, useQuantityItem } from '../../../../db';
 
-export default async function quantities(
-  req: NextApiRequest,
-  res: NextApiResponse
-) {
+async function quantities(req: NextApiRequest, res: NextApiResponse) {
+  // Add a new quantity to an item
   if (req.method === 'POST') {
-    const token = parseToken(req);
-    if (!token) {
-      return res.status(401).json({ status: 'NOT_AUTHENTICATED' });
-    }
-
-    try {
-      await verifyUserToken(token);
-    } catch (error) {
-      return res.status(403).json({ status: 'NOT_AUTHORIZED' });
-    }
-
     const itemId = req.query.itemId as string;
     const { quantity } = req.body;
-    const firestore = getDb();
 
     if (
       quantity === undefined ||
@@ -33,25 +16,52 @@ export default async function quantities(
       return res.status(400).json({ status: 'BAD_PAYLOAD' });
     }
 
-    const itemDoc = firestore.collection('pantry-items').doc(itemId);
-    const now = Date.now();
-    const quant: Quantity = {
-      added_date_ts: now,
-      is_deleted: false,
-      last_modified_ts: now,
-      quantity,
-    };
-
     try {
-      await itemDoc.update({
-        quantities: admin.firestore.FieldValue.arrayUnion(quant),
-      });
+      await addQuantityToItem(itemId, quantity);
     } catch (error) {
       return res.status(500).json({ status: error.message });
     }
 
-    res.json({ status: 'OK' });
-  } else {
-    res.status(405).end();
+    return res.json({ status: 'OK' });
   }
+
+  // Use an item
+  if (req.method === 'PUT') {
+    const itemId = req.query.itemId as string;
+    const { numToUse } = req.body;
+    const parsedNumToUse = Number(numToUse);
+
+    if (
+      numToUse === undefined ||
+      numToUse === null ||
+      typeof numToUse !== 'number' ||
+      isNaN(parsedNumToUse)
+    ) {
+      return res.status(400).json({ status: 'BAD_PAYLOAD' });
+    }
+
+    try {
+      const result = await useQuantityItem(itemId, parsedNumToUse);
+
+      if (result.status === 'NOT_MODIFIED') {
+        return res.status(400).json({
+          status: 'BAD_REQUEST',
+          message: 'Cannot use empty quantity',
+        });
+      }
+    } catch (error) {
+      return res.status(500).json({ status: error.message });
+    }
+
+    return res.status(200).json({ status: 'OK' });
+  }
+
+  // delete a quantity
+  if (req.method === 'DELETE') {
+    return res.status(501).json({ status: 'NOT_IMPLEMENTED' });
+  }
+
+  return res.status(405).end();
 }
+
+export default withAuthMiddleware(quantities);

@@ -2,13 +2,19 @@ import { PantryItem } from '../schema/pantry';
 
 type NewPantryItem = Omit<Omit<PantryItem, 'id'>, 'created_at_ts'>;
 
+function getHeaders(user: string) {
+  return {
+    authorization: `token ${user}`,
+    accept: 'application/json',
+    'content-type': 'application/json',
+  };
+}
+
 export function addItemTopPantry(user: string, newItem: NewPantryItem) {
   return fetch('/api/pantry', {
     method: 'POST',
     body: JSON.stringify(newItem),
-    headers: {
-      authorization: `token ${user}`,
-    },
+    headers: getHeaders(user),
   });
 }
 
@@ -19,13 +25,23 @@ export function addQuantityToItem(
 ) {
   return fetch(`/api/item/${itemId}/quantities`, {
     method: 'POST',
-    headers: {
-      authorization: `token ${user}`,
-      accept: 'application/json',
-      'content-type': 'application/json',
-    },
+    headers: getHeaders(user),
     body: JSON.stringify({
       quantity,
+    }),
+  });
+}
+
+export function useQuantityItem(
+  user: string,
+  itemId: string,
+  numberToUse: number = 1
+) {
+  return fetch(`/api/item/${itemId}/quantities`, {
+    method: 'PUT',
+    headers: getHeaders(user),
+    body: JSON.stringify({
+      numberToUse,
     }),
   });
 }

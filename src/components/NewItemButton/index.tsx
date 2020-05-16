@@ -6,7 +6,7 @@ import { IconImg } from '../ItemDetail/styles';
 import styled from 'styled-components';
 import { PantryItem } from '../../schema/pantry';
 import { useUser } from '../../auth/UserContext';
-import { addItemTopPantry } from '../../api';
+import { addItemTopPantry } from '../../gateway';
 
 const IconChoices = styled.div`
   overflow-y: scroll;

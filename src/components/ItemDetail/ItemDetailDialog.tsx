@@ -9,7 +9,7 @@ import { IconFreshness } from '../IconFreshness';
 import { Button } from '../Button';
 import { useUser } from '../../auth/UserContext';
 import { IconImg, ItemName, Subtext } from './styles';
-import { addQuantityToItem } from '../../api';
+import { addQuantityToItem } from '../../gateway';
 
 const Input = styled.input`
   font-size: 1em;

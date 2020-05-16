@@ -42,7 +42,6 @@ export default async function pantry(
   }
 
   // GET /api/pantry
-  // TODO: put the GET logic in a helper function
   if (req.method === 'GET') {
     try {
       const items = await getPantry();
@@ -55,6 +54,11 @@ export default async function pantry(
       console.error(error);
       return res.status(500);
     }
+  }
+
+  // delete an item
+  if (req.method === 'DELETE') {
+    return res.status(501).json({ status: 'NOT_IMPLEMENTED' });
   }
 
   return res.status(405).end();
