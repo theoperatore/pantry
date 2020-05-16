@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 import formatDistanceToNowStrict from 'date-fns/formatDistanceToNowStrict';
-import { useItemDetailContext } from '../ItemDetail/ItemDetailContext';
 import { PantryItem } from '../../schema/pantry';
 import { IconFreshness } from '../IconFreshness';
 
@@ -37,13 +36,12 @@ const IconSubLabel = styled.p`
 
 type Props = {
   item: PantryItem;
+  onItemSelect: (itemId: string) => void;
 };
 
 export function Item(props: Props) {
-  const [, dispatch] = useItemDetailContext();
-
   function handleClick() {
-    dispatch({ type: 'dialogStateSetAction', pantryItem: props.item });
+    props.onItemSelect(props.item.id);
   }
 
   const { icon_url, name, quantity_type } = props.item;

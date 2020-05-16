@@ -9,12 +9,11 @@ import {
   ContentLayout,
   Item,
   ItemDetailDialog,
-  ItemDetailProvider,
   Title,
+  NewItemButton,
 } from '../components';
 import { PantryResponse } from '../schema/pantry';
 import { getPantry } from '../db';
-import { NewItemButton } from '../components/NewItemButton';
 import { FOOD_IMAGES } from '../lib/foodImages';
 
 async function pantryLoader(url: string) {
@@ -37,8 +36,11 @@ export default function Pantry(props: Props) {
     initialData: props.initialData,
   });
 
+  const [selectedItemId, setSelectedItemId] = React.useState('');
+  const selectedItem = data && data.pantry.find((p) => p.id === selectedItemId);
+
   return (
-    <ItemDetailProvider>
+    <>
       <AppBar>
         <div>
           <Title className="next-to">pantry</Title>
@@ -61,11 +63,19 @@ export default function Pantry(props: Props) {
         {error && <p>Failed pantry request!</p>}
         {data &&
           data.pantry.map((pantryItem) => (
-            <Item key={pantryItem.id} item={pantryItem} />
+            <Item
+              key={pantryItem.id}
+              item={pantryItem}
+              onItemSelect={setSelectedItemId}
+            />
           ))}
       </ContentLayout>
-      <ItemDetailDialog revalidate={revalidate} />
-    </ItemDetailProvider>
+      <ItemDetailDialog
+        item={selectedItem}
+        revalidate={revalidate}
+        onClose={() => setSelectedItemId('')}
+      />
+    </>
   );
 }
 

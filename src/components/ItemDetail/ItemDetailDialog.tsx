@@ -2,7 +2,6 @@ import React from 'react';
 import styled from 'styled-components';
 import formatDistanceToNowStrict from 'date-fns/formatDistanceToNowStrict';
 import format from 'date-fns/format';
-import { useItemDetailContext } from './ItemDetailContext';
 import { Sheet } from '../Sheet';
 import { PantryItem } from '../../schema/pantry';
 import { IconFreshness } from '../IconFreshness';
@@ -226,27 +225,25 @@ function Detail(props: {
 }
 
 type Props = {
+  item?: PantryItem;
+  onClose: () => void;
   revalidate: () => Promise<boolean>;
 };
 
 export function ItemDetailDialog(props: Props) {
-  const [state, dispatch] = useItemDetailContext();
-
-  function handleClose() {
-    dispatch({ type: 'dialogStateClearAction' });
-  }
+  const isOpen = !!props.item;
 
   async function handleUpdate() {
     const out = await props.revalidate();
-    handleClose();
+    props.onClose();
     return out;
   }
 
   return (
-    <Sheet isOpen={state.isOpen} onClose={handleClose}>
-      {state.item && (
+    <Sheet isOpen={isOpen} onClose={props.onClose}>
+      {props.item && (
         <Detail
-          item={state.item}
+          item={props.item}
           onUpdate={handleUpdate}
           revalidate={props.revalidate}
         />
