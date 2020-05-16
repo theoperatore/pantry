@@ -9,7 +9,7 @@ import { IconFreshness } from '../IconFreshness';
 import { Button } from '../Button';
 import { useUser } from '../../auth/UserContext';
 import { IconImg, ItemName, Subtext } from './styles';
-import { addQuantityToItem } from '../../gateway';
+import { addQuantityToItem, useQuantityItem } from '../../gateway';
 
 const Input = styled.input`
   font-size: 1em;
@@ -19,7 +19,11 @@ const Input = styled.input`
   border: 1px solid #ebebeb;
 `;
 
-function Detail(props: { item: PantryItem; onUpdate: () => Promise<boolean> }) {
+function Detail(props: {
+  item: PantryItem;
+  onUpdate: () => Promise<boolean>;
+  revalidate: () => Promise<boolean>;
+}) {
   const [count, setCount] = React.useState('');
   const [status, setStatus] = React.useState('');
   const user = useUser();
@@ -58,6 +62,28 @@ function Detail(props: { item: PantryItem; onUpdate: () => Promise<boolean> }) {
     setStatus('');
   }
 
+  async function handleUseQuantity() {
+    if (!user) return;
+
+    setStatus('pending');
+    try {
+      const response = await useQuantityItem(user, item.id);
+      if (response.ok) {
+        props.revalidate();
+      }
+
+      if (!response.ok) {
+        const { status, message } = await response.json();
+        alert(`Not-ok response: (${response.status}), ${status} ${message}`);
+      }
+    } catch (error) {
+      console.error(error);
+      alert(`Failed to use item: ${error.message}`);
+    }
+
+    setStatus('');
+  }
+
   return (
     <div>
       <div className="horizontal vertical-next-to">
@@ -73,7 +99,12 @@ function Detail(props: { item: PantryItem; onUpdate: () => Promise<boolean> }) {
           </div>
         </div>
         <div>
-          <Button disabled={!user || hasNone}>use</Button>
+          <Button
+            disabled={!user || hasNone || status === 'pending'}
+            onClick={handleUseQuantity}
+          >
+            use
+          </Button>
           <Button disabled={!user} variant="danger">
             <i className="fas fa-trash" />
           </Button>
@@ -213,7 +244,13 @@ export function ItemDetailDialog(props: Props) {
 
   return (
     <Sheet isOpen={state.isOpen} onClose={handleClose}>
-      {state.item && <Detail item={state.item} onUpdate={handleUpdate} />}
+      {state.item && (
+        <Detail
+          item={state.item}
+          onUpdate={handleUpdate}
+          revalidate={props.revalidate}
+        />
+      )}
     </Sheet>
   );
 }

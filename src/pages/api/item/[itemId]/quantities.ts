@@ -28,13 +28,13 @@ async function quantities(req: NextApiRequest, res: NextApiResponse) {
   // Use an item
   if (req.method === 'PUT') {
     const itemId = req.query.itemId as string;
-    const { numToUse } = req.body;
-    const parsedNumToUse = Number(numToUse);
+    const { numberToUse } = req.body;
+    const parsedNumToUse = Number(numberToUse);
 
     if (
-      numToUse === undefined ||
-      numToUse === null ||
-      typeof numToUse !== 'number' ||
+      numberToUse === undefined ||
+      numberToUse === null ||
+      typeof numberToUse !== 'number' ||
       isNaN(parsedNumToUse)
     ) {
       return res.status(400).json({ status: 'BAD_PAYLOAD' });
