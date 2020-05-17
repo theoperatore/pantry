@@ -36,9 +36,7 @@ export const NewItemButton = ({ foodImages, onSaveSuccess }: Props) => {
   const user = useUser();
   const [showIconChoices, setShowIconChoices] = useState(false);
   const [expiresValue, setExpiresValue] = useState(0);
-  const [expiresUnit, setExpiresUnit] = useState<ExpiresInUnits>(
-    ExpiresInUnits.DAY
-  );
+  const [expiresUnit, setExpiresUnit] = useState(ExpiresInUnits.DAY);
   const isValidItem =
     name && name.length && expiresValue && expiresUnit && icon;
 

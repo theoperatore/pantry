@@ -1,7 +1,13 @@
 import React from 'react';
 import add from 'date-fns/add';
+import styled from 'styled-components';
 import { Quantity } from '../../schema/generated';
-import { IconFreshness } from '../IconFreshness';
+
+const IconFreshness = styled.i<{ isFresh?: boolean }>`
+  font-size: 0.75em;
+  color: ${(props) =>
+    props.isFresh ? props.theme.colors.freshness : 'rgba(0, 0, 0, 0.3)'};
+`;
 
 type Props = {
   expiresIn: string;
