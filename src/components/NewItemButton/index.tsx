@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
+import styled from 'styled-components';
 import { Button } from '../Button';
 import { Sheet } from '../Sheet';
 import { RenderInPortal } from '../RenderInPortal';
 import { IconImg } from '../ItemDetail/styles';
-import styled from 'styled-components';
-import { PantryItem } from '../../schema/pantry';
+import { PantryItem, QuantityType } from '../../schema/generated';
 import { useUser } from '../../auth/UserContext';
 import { addItemTopPantry } from '../../gateway';
 
@@ -50,7 +50,7 @@ export const NewItemButton = ({ foodImages, onSaveSuccess }: Props) => {
       icon_url: `/foods/${icon.image}`,
       is_deleted: false,
       expires_in: `${expiresValue}${expiresUnit}`,
-      quantity_type: 'unit',
+      quantity_type: QuantityType.Unit,
       quantities: [],
     };
 

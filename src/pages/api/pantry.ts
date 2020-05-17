@@ -1,8 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { verifyUserToken } from '../../auth/admin';
 import { getPantry, addItemToPantry } from '../../db';
-import { PantryResponse, PantryItem } from '../../schema/pantry';
-import { bootstrapPantry } from '../../db/store';
+import { PantryItem } from '../../schema/generated';
 
 export default async function pantry(
   req: NextApiRequest,
@@ -45,7 +44,7 @@ export default async function pantry(
   if (req.method === 'GET') {
     try {
       const items = await getPantry();
-      const pantryResponse: PantryResponse = {
+      const pantryResponse = {
         pantry: items,
       };
 
