@@ -52,10 +52,9 @@ export function Item(props: Props) {
 
   const total = quant.reduce((sum, q) => sum + q.quantity, 0);
 
-  const earliest = quant.reduce(
-    (e, q) => (e < q.added_date_ts ? e : q.added_date_ts),
-    Infinity
-  );
+  const earliest = quant
+    .filter((q) => q.quantity > 0 && !q.is_deleted)
+    .reduce((e, q) => (e < q.added_date_ts ? e : q.added_date_ts), Infinity);
 
   return (
     <ItemContainer
