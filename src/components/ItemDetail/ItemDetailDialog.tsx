@@ -29,7 +29,7 @@ function Detail(props: {
   const { item } = props;
 
   const quant = React.useMemo(() => {
-    return props.item.quantities.filter((q) => !q.is_deleted);
+    return props.item.quantities.filter((q) => q.quantity > 0 && !q.is_deleted);
   }, [props.item.quantities]);
 
   const hasNone = quant.reduce((s, q) => s + q.quantity, 0) === 0;
