@@ -2,6 +2,7 @@ import React from 'react';
 import { GetServerSideProps } from 'next';
 import Link from 'next/link';
 import useSwr from 'swr';
+import { request } from 'graphql-request';
 import { useUser } from '../auth/UserContext';
 import {
   Button,
@@ -12,29 +13,31 @@ import {
   Title,
   NewItemButton,
 } from '../components';
-import { PantryItem } from '../schema/generated';
-import { getPantry } from '../db';
+import {
+  GetPantryQueryResult,
+  GetPantryQueryString,
+  GetPantryQueryVariables,
+} from '../schema';
 import { FOOD_IMAGES } from '../lib/foodImages';
 
-async function pantryLoader(url: string) {
-  const response = await fetch(url);
-  if (response.ok) {
-    return (await response.json()) as { pantry: PantryItem[] };
-  }
+async function pantryLoader(query: string, variables: GetPantryQueryVariables) {
+  return request<GetPantryQueryResult>('/api/graphql', query, variables);
+}
 
-  throw new Error('Failed to load pantry');
+function usePantry(initialData?: GetPantryQueryResult) {
+  return useSwr(GetPantryQueryString, pantryLoader, {
+    initialData,
+  });
 }
 
 type Props = {
-  initialData: { pantry: PantryItem[] };
+  initialData: GetPantryQueryResult;
   foodImages: { image: string; name: string }[];
 };
 
 export default function Pantry(props: Props) {
   const user = useUser();
-  const { data, error, revalidate } = useSwr('/api/pantry', pantryLoader, {
-    initialData: props.initialData,
-  });
+  const { data, error, revalidate } = usePantry(props.initialData);
 
   const [selectedItemId, setSelectedItemId] = React.useState('');
   const selectedItem = data && data.pantry.find((p) => p.id === selectedItemId);
@@ -80,6 +83,7 @@ export default function Pantry(props: Props) {
 }
 
 export const getServerSideProps: GetServerSideProps = async () => {
+  const { getPantry } = await import('../db');
   const pantryItems = await getPantry();
   const foodImagesMap = FOOD_IMAGES.map((image) => {
     const foodName = image.replace('icons8-', '').replace('-100.png', '');
