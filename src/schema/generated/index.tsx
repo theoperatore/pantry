@@ -40,6 +40,29 @@ export enum QuantityType {
   Unit = 'unit',
 }
 
+export type GetPantryQueryVariables = {};
+
+export type GetPantryQueryResult = {
+  __typename?: 'Query';
+  pantry: Array<{
+    __typename?: 'PantryItem';
+    id: string;
+    name: string;
+    icon_url: string;
+    is_deleted: boolean;
+    expires_in: string;
+    created_at_ts: number;
+    quantity_type: QuantityType;
+    quantities: Array<{
+      __typename?: 'Quantity';
+      added_date_ts: number;
+      last_modified_ts: number;
+      is_deleted: boolean;
+      quantity: number;
+    }>;
+  }>;
+};
+
 export type WithIndex<TObject> = TObject & Record<string, any>;
 export type ResolversObject<TObject> = WithIndex<TObject>;
 

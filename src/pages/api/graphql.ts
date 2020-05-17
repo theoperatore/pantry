@@ -1,7 +1,6 @@
 import { ApolloServer } from 'apollo-server-micro';
-import { schema as typeDefs, PantryContext } from '../../schema/pantry.graphql';
+import { Resolvers, typeDefs, PantryContext } from '../../schema';
 import { getPantry } from '../../db';
-import { Resolvers } from '../../schema/generated';
 
 const resolvers: Resolvers = {
   Query: {

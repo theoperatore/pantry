@@ -1,4 +1,4 @@
-import { gql } from 'apollo-server-micro';
+import gql from 'graphql-tag';
 
 export type PantryContext = {
   // should I put loaders here? or just require them

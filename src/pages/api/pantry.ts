@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { verifyUserToken } from '../../auth/admin';
-import { getPantry, addItemToPantry } from '../../db';
+import { addItemToPantry } from '../../db';
 import { PantryItem } from '../../schema/generated';
 
 export default async function pantry(
@@ -37,21 +37,6 @@ export default async function pantry(
     } catch (e) {
       console.error(e);
       return res.status(500).json({ status: e.message });
-    }
-  }
-
-  // GET /api/pantry
-  if (req.method === 'GET') {
-    try {
-      const items = await getPantry();
-      const pantryResponse = {
-        pantry: items,
-      };
-
-      return res.json(pantryResponse);
-    } catch (error) {
-      console.error(error);
-      return res.status(500);
     }
   }
 

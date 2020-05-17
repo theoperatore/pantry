@@ -2,24 +2,30 @@ overwrite: true
 schema: ./src/schema/pantry.graphql.ts
 require:
   - ts-node/register
-# documents: ./src/schema/pantry.graphql
 hooks:
   afterAllFileWrite:
     - prettier --write
 generates:
   src/schema/generated/index.tsx:
+    documents: src/schema/queries/*.ts
     plugins:
       - typescript
       - typescript-operations
+      # - typescript-react-apollo
       - typescript-resolvers
     config:
+      preResolveTypes: true
       noSchemaStitching: true
       # to enable compatability with apollo server
       useIndexSignature: true
+      # For operations to not get confused with types and name of query
+      operationResultSuffix: 'Result'
+      # Otherwise we have to manually add this to every
+      # resolver function :(
       contextType: ../pantry.graphql#PantryContext
-  # this seems to be built into apollo-server
-  # requires "@graphql-codegen/introspection"
-  # to work
-  # ./graphql.schema.json:
-  #   plugins:
-  #     - introspection
+      # react-apollo and operations config
+      # for clients-only. All clients should only use
+      # hooks exported from schema, no deep reaching!
+      # withHooks: true
+      # withHOC: false
+      # withComponent: false
