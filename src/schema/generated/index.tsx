@@ -22,15 +22,15 @@ export type PantryItem = {
   icon_url: Scalars['String'];
   is_deleted: Scalars['Boolean'];
   expires_in: Scalars['String'];
-  created_at_ts: Scalars['String'];
+  created_at_ts: Scalars['Float'];
   quantity_type: QuantityType;
   quantities: Array<Quantity>;
 };
 
 export type Quantity = {
   __typename?: 'Quantity';
-  added_date_ts: Scalars['String'];
-  last_modified_ts: Scalars['String'];
+  added_date_ts: Scalars['Float'];
+  last_modified_ts: Scalars['Float'];
   is_deleted: Scalars['Boolean'];
   quantity: Scalars['Int'];
 };
@@ -154,6 +154,7 @@ export type ResolversTypes = ResolversObject<{
   Query: ResolverTypeWrapper<{}>;
   PantryItem: ResolverTypeWrapper<PantryItem>;
   ID: ResolverTypeWrapper<Scalars['ID']>;
+  Float: ResolverTypeWrapper<Scalars['Float']>;
   Quantity: ResolverTypeWrapper<Quantity>;
   Int: ResolverTypeWrapper<Scalars['Int']>;
   QuantityType: QuantityType;
@@ -166,6 +167,7 @@ export type ResolversParentTypes = ResolversObject<{
   Query: {};
   PantryItem: PantryItem;
   ID: Scalars['ID'];
+  Float: Scalars['Float'];
   Quantity: Quantity;
   Int: Scalars['Int'];
   QuantityType: QuantityType;
@@ -191,7 +193,7 @@ export type PantryItemResolvers<
   icon_url?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   is_deleted?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   expires_in?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  created_at_ts?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  created_at_ts?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
   quantity_type?: Resolver<
     ResolversTypes['QuantityType'],
     ParentType,
@@ -209,12 +211,8 @@ export type QuantityResolvers<
   ContextType = PantryContext,
   ParentType extends ResolversParentTypes['Quantity'] = ResolversParentTypes['Quantity']
 > = ResolversObject<{
-  added_date_ts?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  last_modified_ts?: Resolver<
-    ResolversTypes['String'],
-    ParentType,
-    ContextType
-  >;
+  added_date_ts?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
+  last_modified_ts?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
   is_deleted?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   quantity?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   __isTypeOf?: isTypeOfResolverFn<ParentType>;

@@ -1,6 +1,6 @@
 import React from 'react';
 import add from 'date-fns/add';
-import { Quantity } from '../../schema/pantry';
+import { Quantity } from '../../schema/generated';
 import { IconFreshness } from '../IconFreshness';
 
 type Props = {

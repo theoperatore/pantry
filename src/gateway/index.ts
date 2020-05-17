@@ -1,4 +1,4 @@
-import { PantryItem } from '../schema/pantry';
+import { PantryItem } from '../schema/generated';
 
 type NewPantryItem = Omit<Omit<PantryItem, 'id'>, 'created_at_ts'>;
 

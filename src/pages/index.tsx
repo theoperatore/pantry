@@ -12,21 +12,21 @@ import {
   Title,
   NewItemButton,
 } from '../components';
-import { PantryResponse } from '../schema/pantry';
+import { PantryItem } from '../schema/generated';
 import { getPantry } from '../db';
 import { FOOD_IMAGES } from '../lib/foodImages';
 
 async function pantryLoader(url: string) {
   const response = await fetch(url);
   if (response.ok) {
-    return (await response.json()) as PantryResponse;
+    return (await response.json()) as { pantry: PantryItem[] };
   }
 
   throw new Error('Failed to load pantry');
 }
 
 type Props = {
-  initialData: PantryResponse;
+  initialData: { pantry: PantryItem[] };
   foodImages: { image: string; name: string }[];
 };
 

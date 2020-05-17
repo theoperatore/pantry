@@ -18,14 +18,14 @@ export const schema = gql`
     icon_url: String!
     is_deleted: Boolean!
     expires_in: String!
-    created_at_ts: String!
+    created_at_ts: Float!
     quantity_type: QuantityType!
     quantities: [Quantity!]!
   }
 
   type Quantity {
-    added_date_ts: String!
-    last_modified_ts: String!
+    added_date_ts: Float!
+    last_modified_ts: Float!
     is_deleted: Boolean!
     quantity: Int!
   }

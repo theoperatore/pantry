@@ -1,6 +1,6 @@
 import * as admin from 'firebase-admin';
 import { getDb } from './getDb';
-import { PantryItem, Quantity } from '../schema/pantry';
+import { PantryItem, Quantity, QuantityType } from '../schema/generated';
 
 /**
  * @deprecated
@@ -16,7 +16,7 @@ export async function bootstrapPantry() {
         is_deleted: false,
         name: 'Broccoli',
         icon_url: '/foods/icons8-lettuce-100.png',
-        quantity_type: 'unit',
+        quantity_type: QuantityType.Unit,
         quantities: [
           {
             added_date_ts: new Date(2020, 3, 20).getTime(),
