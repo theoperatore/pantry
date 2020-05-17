@@ -4,11 +4,11 @@ import formatDistanceToNowStrict from 'date-fns/formatDistanceToNowStrict';
 import format from 'date-fns/format';
 import { Sheet } from '../Sheet';
 import { PantryItem } from '../../schema/pantry';
-import { IconFreshness } from '../IconFreshness';
 import { Button } from '../Button';
 import { useUser } from '../../auth/UserContext';
 import { IconImg, ItemName, Subtext } from './styles';
 import { addQuantityToItem, useQuantityItem } from '../../gateway';
+import { Freshness } from '../Freshness';
 
 const Input = styled.input`
   font-size: 1em;
@@ -139,25 +139,7 @@ function Detail(props: {
                 {q.quantity}
                 {item.quantity_type === 'unit' ? 'pcs' : 'pct'}
               </div>
-              <div className="flex horizontal side-by-side center-content">
-                <IconFreshness
-                  className="fas fa-seedling right-next-to"
-                  isFresh={true}
-                />
-                <IconFreshness
-                  className="fas fa-seedling right-next-to"
-                  isFresh={true}
-                />
-                <IconFreshness
-                  className="fas fa-seedling right-next-to"
-                  isFresh={true}
-                />
-                <IconFreshness
-                  className="fas fa-seedling right-next-to"
-                  isFresh={false}
-                />
-                <IconFreshness className="fas fa-seedling " isFresh={false} />
-              </div>
+              <Freshness expiresIn={item.expires_in} quantity={q} />
             </div>
           </div>
         ))}

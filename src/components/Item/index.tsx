@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 import formatDistanceToNowStrict from 'date-fns/formatDistanceToNowStrict';
-import { PantryItem } from '../../schema/pantry';
-import { IconFreshness } from '../IconFreshness';
+import { PantryItem, Quantity } from '../../schema/pantry';
+import { Freshness } from '../Freshness';
 
 const ItemContainer = styled.div<{ empty?: boolean }>`
   border-radius: 10px;
@@ -52,9 +52,15 @@ export function Item(props: Props) {
 
   const total = quant.reduce((sum, q) => sum + q.quantity, 0);
 
+  // need to manually add the type here to reduce because some
+  // items don't have any members inside quantities, so that
+  // is defaulted to null
   const earliest = quant
     .filter((q) => q.quantity > 0 && !q.is_deleted)
-    .reduce((e, q) => (e < q.added_date_ts ? e : q.added_date_ts), Infinity);
+    .reduce<Quantity | null>(
+      (e, q) => (e && e.added_date_ts < q.added_date_ts ? e : q),
+      null
+    );
 
   return (
     <ItemContainer
@@ -69,10 +75,13 @@ export function Item(props: Props) {
         <div className="flex vertical center-vertical">
           <IconLabel bold>{name}</IconLabel>
           <IconSubLabel>
-            {earliest !== Infinity &&
-              `Stocked ${formatDistanceToNowStrict(new Date(earliest), {
-                addSuffix: true,
-              })}`}
+            {earliest &&
+              `Stocked ${formatDistanceToNowStrict(
+                new Date(earliest.added_date_ts),
+                {
+                  addSuffix: true,
+                }
+              )}`}
           </IconSubLabel>
         </div>
         <div className="flex vertical center-vertical end-vertical">
@@ -80,25 +89,9 @@ export function Item(props: Props) {
             {total}
             {quantity_type === 'unit' ? 'pcs' : 'pct'}
           </IconLabel>
-          <div className="horizontal side-by-side">
-            <IconFreshness
-              className="fas fa-seedling right-next-to"
-              isFresh={total === 0 ? false : true}
-            />
-            <IconFreshness
-              className="fas fa-seedling right-next-to"
-              isFresh={total === 0 ? false : true}
-            />
-            <IconFreshness
-              className="fas fa-seedling right-next-to"
-              isFresh={total === 0 ? false : true}
-            />
-            <IconFreshness
-              className="fas fa-seedling right-next-to"
-              isFresh={false}
-            />
-            <IconFreshness className="fas fa-seedling " isFresh={false} />
-          </div>
+          {earliest && (
+            <Freshness quantity={earliest} expiresIn={props.item.expires_in} />
+          )}
         </div>
       </div>
     </ItemContainer>
