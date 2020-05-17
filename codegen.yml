@@ -3,6 +3,9 @@ schema: ./src/schema/pantry.graphql.ts
 require:
   - ts-node/register
 # documents: ./src/schema/pantry.graphql
+hooks:
+  afterAllFileWrite:
+    - prettier --write
 generates:
   src/schema/generated/index.tsx:
     plugins:
