@@ -63,16 +63,19 @@ export function addItemToPantry(
 
 /**
  * Returns the entire pantry list ordered by creation date by default
+ * This is a generic type but defaulted to the manual PantryItem
+ * to be supported by legacy types, this should be cleaned up
+ * and shoudl only use the generated types via graphql
  */
-export async function getPantry() {
+export async function getPantry<P = PantryItem>() {
   const firestore = getDb();
   const snapshot = await firestore
     .collection('/pantry-items')
     .orderBy('created_at_ts', 'asc')
     .get();
 
-  const docs: PantryItem[] = snapshot.docs.map<PantryItem>((doc) => {
-    const data = doc.data() as PantryItem;
+  const docs: P[] = snapshot.docs.map<P>((doc) => {
+    const data = doc.data() as P;
 
     // TODO: this might be a better way to handle this,
     //       but for now just use the doc.data() method.

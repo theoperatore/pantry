@@ -4,7 +4,8 @@
   "scripts": {
     "dev": "next",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "codegen-schema": "graphql-codegen --config codegen.yml"
   },
   "husky": {
     "hooks": {
@@ -13,9 +14,11 @@
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.13.0",
+    "apollo-server-micro": "^2.13.1",
     "date-fns": "^2.12.0",
     "firebase": "^7.14.1",
     "firebase-admin": "^8.10.0",
+    "graphql": "^15.0.0",
     "next": "latest",
     "react": "^16.8.0",
     "react-dom": "^16.8.0",
@@ -27,6 +30,11 @@
     "swr": "^0.2.0"
   },
   "devDependencies": {
+    "@graphql-codegen/cli": "1.13.5",
+    "@graphql-codegen/typescript": "1.13.5",
+    "@graphql-codegen/typescript-operations": "1.13.5",
+    "@graphql-codegen/typescript-react-apollo": "1.13.5",
+    "@graphql-codegen/typescript-resolvers": "1.13.5",
     "@types/node": "^13.13.0",
     "@types/react": "^16.9.34",
     "@types/react-dom": "^16.9.6",
@@ -35,6 +43,7 @@
     "husky": "^4.2.5",
     "prettier": "^2.0.4",
     "pretty-quick": "^2.0.1",
+    "ts-node": "^8.10.1",
     "typescript": "^3.9.2"
   },
   "license": "ISC"

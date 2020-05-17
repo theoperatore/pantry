@@ -1,0 +1,22 @@
+overwrite: true
+schema: ./src/schema/pantry.graphql.ts
+require:
+  - ts-node/register
+# documents: ./src/schema/pantry.graphql
+generates:
+  src/schema/generated/index.tsx:
+    plugins:
+      - typescript
+      - typescript-operations
+      - typescript-resolvers
+    config:
+      noSchemaStitching: true
+      # to enable compatability with apollo server
+      useIndexSignature: true
+      contextType: ../pantry.graphql#PantryContext
+  # this seems to be built into apollo-server
+  # requires "@graphql-codegen/introspection"
+  # to work
+  # ./graphql.schema.json:
+  #   plugins:
+  #     - introspection
