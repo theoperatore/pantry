@@ -4,7 +4,7 @@ import { Button } from '../Button';
 import { Sheet } from '../Sheet';
 import { RenderInPortal } from '../RenderInPortal';
 import { IconImg } from '../ItemDetail/styles';
-import { PantryItem, QuantityType } from '../../schema/generated';
+import { PantryItem, QuantityType } from '../../graphql/__generated__';
 import { useUser } from '../../auth/UserContext';
 import { addItemTopPantry } from '../../gateway';
 

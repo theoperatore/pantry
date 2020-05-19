@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import formatDistanceToNowStrict from 'date-fns/formatDistanceToNowStrict';
-import { PantryItem, Quantity } from '../../schema/generated';
+import { PantryItem, Quantity } from '../../graphql/__generated__';
 import { Freshness } from '../Freshness';
 
 const ItemContainer = styled.div<{ empty?: boolean }>`

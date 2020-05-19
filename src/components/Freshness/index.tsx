@@ -1,7 +1,7 @@
 import React from 'react';
 import add from 'date-fns/add';
 import styled from 'styled-components';
-import { Quantity } from '../../schema/generated';
+import { Quantity } from '../../graphql/__generated__';
 
 const IconFreshness = styled.i<{ isFresh?: boolean }>`
   font-size: 0.75em;

@@ -1,13 +1,13 @@
 overwrite: true
-schema: ./src/schema/pantry.graphql.ts
+schema: ./src/graphql/pantry.graphql.ts
 require:
   - ts-node/register
 hooks:
   afterAllFileWrite:
     - prettier --write
 generates:
-  src/schema/generated/index.tsx:
-    documents: src/schema/queries/*.ts
+  src/graphql/__generated__/index.tsx:
+    documents: src/graphql/queries/*.ts
     plugins:
       - typescript
       - typescript-operations

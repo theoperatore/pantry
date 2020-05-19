@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { verifyUserToken } from '../../auth/admin';
 import { addItemToPantry } from '../../db';
-import { PantryItem } from '../../schema/generated';
+import { PantryItem } from '../../graphql/__generated__';
 
 export default async function pantry(
   req: NextApiRequest,
