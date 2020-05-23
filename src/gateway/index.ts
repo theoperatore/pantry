@@ -1,4 +1,4 @@
-import { PantryItem } from '../schema/generated';
+import { PantryItem } from '../graphql/__generated__';
 
 type NewPantryItem = Omit<Omit<PantryItem, 'id'>, 'created_at_ts'>;
 

@@ -1,6 +1,6 @@
 import * as admin from 'firebase-admin';
 import { getDb } from './getDb';
-import { PantryItem, Quantity, QuantityType } from '../schema/generated';
+import { PantryItem, Quantity, QuantityType } from '../graphql/__generated__';
 
 /**
  * @deprecated

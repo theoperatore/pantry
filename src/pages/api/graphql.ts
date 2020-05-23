@@ -1,18 +1,8 @@
 import { ApolloServer } from 'apollo-server-micro';
-import { Resolvers, typeDefs, PantryContext } from '../../schema';
-import { getPantry } from '../../db';
-
-const resolvers: Resolvers = {
-  Query: {
-    pantry: (_parent, _args, _context) => {
-      return getPantry();
-    },
-  },
-};
+import { PantryContext, schema } from '../../graphql';
 
 const server = new ApolloServer({
-  typeDefs,
-  resolvers,
+  schema,
   context: (connection) => {
     const auth: string | undefined = connection.req.headers.authorization;
     const validAuth = !!(auth && auth.match(/^token\s/));

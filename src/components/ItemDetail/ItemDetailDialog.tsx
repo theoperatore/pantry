@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import formatDistanceToNowStrict from 'date-fns/formatDistanceToNowStrict';
 import format from 'date-fns/format';
 import { Sheet } from '../Sheet';
-import { PantryItem } from '../../schema/generated';
+import { PantryItem } from '../../graphql/__generated__';
 import { Button } from '../Button';
 import { useUser } from '../../auth/UserContext';
 import { IconImg, ItemName, Subtext } from './styles';
