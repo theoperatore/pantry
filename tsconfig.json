@@ -1,27 +1,9 @@
 {
   "compilerOptions": {
-<<<<<<< HEAD
-    "target": "es5",
-=======
->>>>>>> 9e81533 (Initial commit from Create Next App)
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
-<<<<<<< HEAD
-    "forceConsistentCasingInFileNames": true,
-    "noImplicitAny": true,
-    "noEmit": true,
-    "esModuleInterop": true,
-    "module": "esnext",
-    "moduleResolution": "node",
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "jsx": "preserve"
-  },
-  "exclude": ["node_modules"],
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"]
-=======
     "noEmit": true,
     "esModuleInterop": true,
     "module": "esnext",
@@ -30,6 +12,8 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "incremental": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
     "plugins": [
       {
         "name": "next"
@@ -41,5 +25,4 @@
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
   "exclude": ["node_modules"]
->>>>>>> 9e81533 (Initial commit from Create Next App)
 }
