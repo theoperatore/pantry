@@ -1,3 +1,6 @@
+import { Metadata } from 'next';
+import Link from 'next/link';
+import { PageHeader } from '@/design/PageHeader';
 import {
   ActionIcon,
   Button,
@@ -8,26 +11,26 @@ import {
   Text,
   Title,
 } from '@mantine/core';
-import { IconTrash } from '@tabler/icons-react';
 import { allIcons } from './foods';
 import { FoodIconFreshness } from './foods/FoodIconFreshness';
 
-export default function Home() {
+export const metadata: Metadata = {
+  title: 'Pantry - Home',
+};
+
+export default async function Home() {
   return (
     <Container>
-      <Group py="md">
+      <PageHeader>
         <Title>Pantry</Title>
-      </Group>
+      </PageHeader>
       <Text pb="md">
-        Some stuff describing some things. When you have a paragraph of text and
-        you want to determine if this font is nice or not.
+        {`Keep track of what's in your pantry so that the next time you go shopping you know exactly what to replace or stock up on`}
       </Text>
       <Group gap="sm" mb="md">
-        <Button>Primary Button</Button>
-        <Button color="danger" leftSection={<IconTrash size={16} />}>
-          Danger
+        <Button component={Link} href="/login">
+          Stock your pantry
         </Button>
-        <Button color="freshness">Freshness</Button>
       </Group>
       <Group gap="sm" mb="md">
         {allIcons.map((Icon, idx) => (

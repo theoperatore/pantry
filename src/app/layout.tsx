@@ -2,6 +2,7 @@ import { PropsWithChildren } from 'react';
 import type { Metadata } from 'next';
 import { Comfortaa } from 'next/font/google';
 import { headers } from 'next/headers';
+import { StyleProviders } from '@/app/StyleProviders';
 import {
   blueColors,
   brandColors,
@@ -14,7 +15,6 @@ import {
 } from '@/colors';
 import { ColorSchemeScript, createTheme } from '@mantine/core';
 import '@mantine/core/styles.css';
-import { StyleProviders } from './StyleProviders';
 import './globals.css';
 
 const comfortaa = Comfortaa({ subsets: ['latin'], display: 'swap' });
@@ -51,11 +51,11 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: PropsWithChildren<{}>) {
-  const nonce = headers().get('x-nonce') || 'default-nonce';
+  const nonce = headers().get('x-nonce') || '';
   return (
     <html lang="en">
       <head>
-        <ColorSchemeScript forceColorScheme="light" />
+        <ColorSchemeScript nonce={nonce} forceColorScheme="light" />
       </head>
       <body>
         <StyleProviders theme={theme} nonce={nonce}>

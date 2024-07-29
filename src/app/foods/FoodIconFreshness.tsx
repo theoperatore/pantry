@@ -21,7 +21,7 @@ export function FoodIconFreshness(props: Props) {
 
   return (
     <FoodIcon style={props.style}>
-      <Image src={img} alt="" width={size} height={size} />
+      <Image src={img} alt="" width={size} height={size} priority />
     </FoodIcon>
   );
 }

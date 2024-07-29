@@ -5,7 +5,7 @@ import img from './icons8-nut-100.png';
 export function FoodIconNut() {
   return (
     <FoodIcon>
-      <Image src={img} alt="" width={48} height={48} />
+      <Image src={img} alt="" width={48} height={48} priority />
     </FoodIcon>
   );
 }

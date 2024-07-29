@@ -5,7 +5,7 @@ import img from './icons8-chocolate-bar-100.png';
 export function FoodIconChocolateBar() {
   return (
     <FoodIcon>
-      <Image src={img} alt="" width={48} height={48} />
+      <Image src={img} alt="" width={48} height={48} priority />
     </FoodIcon>
   );
 }
