@@ -12,6 +12,7 @@ export function createCsp({ nonce }: { nonce: string }) {
         "'strict-dynamic'",
         // "'unsafe-inline'",
         // 'https:',
+        'https://vercel.live/_next-live/feedback/*',
         // next.js uses eval for sourcemaps in dev
         ...(isDev ? ["'unsafe-eval'"] : []),
       ],
