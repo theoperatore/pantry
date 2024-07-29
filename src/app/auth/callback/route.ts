@@ -12,18 +12,24 @@ export async function GET(request: Request) {
   const errorDescription = requestUrl.searchParams.get('error_description');
   const origin = requestUrl.origin;
 
+  console.log('AUTH/CALLBACK: begin handler');
+
   if (error) {
     console.log(
-      'Error during auth callback',
+      'AUTH/CALLBACK: Error during auth callback',
       error,
       errorCode,
       errorDescription,
     );
+    const params = new URLSearchParams();
+
     if (error === 'access_denied' || errorCode === '422') {
-      const params = new URLSearchParams();
       params.set('error_message', errorDescription || '');
       return NextResponse.redirect(`${origin}/auth/error?${params.toString()}`);
     }
+
+    params.set('error_message', 'Unknown auth error');
+    return NextResponse.redirect(`${origin}/auth/error?${params.toString()}`);
   }
 
   if (code) {
@@ -40,9 +46,12 @@ export async function GET(request: Request) {
 
     // TODO: verify that this forward_to domain is the same as origin domain
     const forwardTo = requestUrl.searchParams.get('next') || `${origin}`;
+    console.log('AUTH/CALLBACK: login success. forwrading user to:', forwardTo);
 
     return NextResponse.redirect(forwardTo);
   }
+
+  console.log('AUTH/CALLBACK: No error and no code. redirecting to pantry');
 
   // URL to redirect to after sign up process completes
   return NextResponse.redirect(`${origin}/pantry`);

@@ -19,6 +19,13 @@ export async function signInWithSpotify() {
     },
   });
 
+  if (response.error) {
+    console.error(
+      'SIGN_IN_WITH_SPOTIFY: error while attempting to sign in',
+      response.error,
+    );
+  }
+
   if (response.data.url) {
     return redirect(response.data.url);
   }
