@@ -27,7 +27,6 @@ export async function signInWithSpotify() {
   }
 
   if (response.data.url) {
-    console.log('redirecting to Spotify provider', response.data.url);
     return redirect(response.data.url);
   }
 }
