@@ -1,6 +1,8 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
 import { PageHeader } from '@/design/PageHeader';
+import { allIcons } from '@/foods';
+import { FoodIconFreshness } from '@/foods/FoodIconFreshness';
 import {
   ActionIcon,
   Button,
@@ -11,8 +13,6 @@ import {
   Text,
   Title,
 } from '@mantine/core';
-import { allIcons } from './foods';
-import { FoodIconFreshness } from './foods/FoodIconFreshness';
 
 export const metadata: Metadata = {
   title: 'Pantry - Home',
@@ -33,8 +33,8 @@ export default async function Home() {
         </Button>
       </Group>
       <Group gap="sm" mb="md">
-        {allIcons.map((Icon, idx) => (
-          <ActionIcon key={`foodIcon-${idx}`} size={64} variant="subtle">
+        {allIcons.map(({ id, icon: Icon }) => (
+          <ActionIcon key={`foodIcon-${id}`} size={64} variant="subtle">
             <Icon />
           </ActionIcon>
         ))}

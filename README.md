@@ -41,6 +41,69 @@ The most interesting part is the raspberry pi touch screen setup that is next to
 6. Link your [Vercel]() and [Github]() account with the database provider
 7. Joy
 
+# Working with Supabase
+
+## Migrations
+
+Supabase has a nice migration workflow to handle schema evolution. Generally, when you when you want to update the database schema you do so in a new migration **locally** where it's safe to thrash the database as you prototype the changes you want.
+
+```bash
+# create a new migration file
+npm exec supabase migrations new <name your thing>
+```
+
+Once you have a migration file you can run it against the local database via:
+
+```bash
+# ensure the db is started
+npm run db:start
+
+# if you want to keep your current history and only apply the changes run
+npm exec supabase migrations up
+
+# alternatively you can destroy your
+# current db and re-apply the new changes.
+# this also reseeds the database
+npm exec supabase db reset
+
+# run after database changes to regenerate the kysely typescript types
+# from the new schema updates
+npm run db:types
+```
+
+Now play around with the new schema!
+
+Once everything is good you can apply the changes to production by running:
+
+```bash
+# push any finalized non-applied mirations to production
+npm exec supabase db push
+```
+
+### Rolling back a migration
+
+It's all manual for right now. So to remove a migration you're gonna need to manually run the sql that reverts the migration aapplied. Once you do that you can also delete the row in the migrations schema that marks that migration as applied.
+
+sorry future self! :(
+
+## Upgrading the cli
+
+Supabase cli wants to be run on a clean local database, so the docs say to stop and destroy the containers. Before you do that you can dump the data in the databasae into the seed.sql file so that you can restore from where you were:
+
+```bash
+npm exec supabase db diff my_schema
+npm exec supabase db dump --local --data-only > supabase/seed.sql
+```
+
+then when you stop the db you can safely drop the backup volumn and restart the server:
+
+```bash
+npm exec supabase stop --no-backup
+npm exec supabase start
+```
+
+running start should download the new docker images, apply any migrations on the fresh volumnes, and reseed from the sql file.
+
 # License
 
 MIT
