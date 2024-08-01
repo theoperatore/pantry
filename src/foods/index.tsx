@@ -1,0 +1,103 @@
+import { FoodIconAsparagus } from './FoodIconAsparagus';
+import { FoodIconAvocado } from './FoodIconAvocado';
+import { FoodIconBacon } from './FoodIconBacon';
+import { FoodIconBanana } from './FoodIconBanana';
+import { FoodIconBigCarrot } from './FoodIconBigCarrot';
+import { FoodIconBread } from './FoodIconBread';
+import { FoodIconCauliflower } from './FoodIconCauliflower';
+import { FoodIconCheese } from './FoodIconCheese';
+import { FoodIconChiliPepper } from './FoodIconChiliPepper';
+import { FoodIconChocolateBar } from './FoodIconChocolateBar';
+import { FoodIconCinnamonSticks } from './FoodIconCinnamonSticks';
+import { FoodIconCookie } from './FoodIconCookie';
+import { FoodIconCorn } from './FoodIconCorn';
+import { FoodIconCucumber } from './FoodIconCucumber';
+import { FoodIconDressing } from './FoodIconDressing';
+import { FoodIconEggCarton } from './FoodIconEggCarton';
+import { FoodIconFishSkeleton } from './FoodIconFishSkeleton';
+import { FoodIconFlour1 } from './FoodIconFlour1';
+import { FoodIconFlour2 } from './FoodIconFlour2';
+import { FoodIconGarlic } from './FoodIconGarlic';
+import { FoodIconGrape } from './FoodIconGrape';
+import { FoodIconGreenery } from './FoodIconGreenery';
+import { FoodIconHoney } from './FoodIconHoney';
+import { FoodIconHotChocolate } from './FoodIconHotChocolate';
+import { FoodIconIceCreamInWaffleCone } from './FoodIconIceCreamInWaffleCone';
+import { FoodIconJam } from './FoodIconJam';
+import { FoodIconLemon } from './FoodIconLemon';
+import { FoodIconLettuce } from './FoodIconLettuce';
+import { FoodIconMeat } from './FoodIconMeat';
+import { FoodIconMeatSausage } from './FoodIconMeatSausage';
+import { FoodIconMilkBottle } from './FoodIconMilkBottle';
+import { FoodIconMushroom } from './FoodIconMushroom';
+import { FoodIconNut } from './FoodIconNut';
+import { FoodIconOliveOil } from './FoodIconOliveOil';
+import { FoodIconOnion } from './FoodIconOnion';
+import { FoodIconPaprika } from './FoodIconPaprika';
+import { FoodIconPotato } from './FoodIconPotato';
+import { FoodIconPrawn } from './FoodIconPrawn';
+import { FoodIconPumpkin } from './FoodIconPumpkin';
+import { FoodIconRadish } from './FoodIconRadish';
+import { FoodIconSalami } from './FoodIconSalami';
+import { FoodIconSalamiPizza } from './FoodIconSalamiPizza';
+import { FoodIconSalmon } from './FoodIconSalmon';
+import { FoodIconStrawberry } from './FoodIconStrawberry';
+import { FoodIconSugarSack1 } from './FoodIconSugarSack1';
+import { FoodIconSugarSack2 } from './FoodIconSugarSack2';
+import { FoodIconTinCan } from './FoodIconTinCan';
+import { FoodIconTomato } from './FoodIconTomato';
+import { FoodIconTurkey } from './FoodIconTurkey';
+import { FoodIconWineAndGrapes } from './FoodIconWineAndGrapes';
+
+export const allIcons = [
+  { id: 'asparagus', icon: FoodIconAsparagus },
+  { id: 'avocado', icon: FoodIconAvocado },
+  { id: 'bacon', icon: FoodIconBacon },
+  { id: 'banana', icon: FoodIconBanana },
+  { id: 'big-carrot', icon: FoodIconBigCarrot },
+  { id: 'bread', icon: FoodIconBread },
+  { id: 'cauliflower', icon: FoodIconCauliflower },
+  { id: 'cheese', icon: FoodIconCheese },
+  { id: 'chili-pepper', icon: FoodIconChiliPepper },
+  { id: 'chocolate-bar', icon: FoodIconChocolateBar },
+  { id: 'cinnamon-sticks', icon: FoodIconCinnamonSticks },
+  { id: 'cookie', icon: FoodIconCookie },
+  { id: 'corn', icon: FoodIconCorn },
+  { id: 'cucumber', icon: FoodIconCucumber },
+  { id: 'dressing', icon: FoodIconDressing },
+  { id: 'egg-carton', icon: FoodIconEggCarton },
+  { id: 'fish-skeleton', icon: FoodIconFishSkeleton },
+  { id: 'flour1', icon: FoodIconFlour1 },
+  { id: 'flour2', icon: FoodIconFlour2 },
+  { id: 'garlic', icon: FoodIconGarlic },
+  { id: 'grape', icon: FoodIconGrape },
+  { id: 'greenery', icon: FoodIconGreenery },
+  { id: 'honey', icon: FoodIconHoney },
+  { id: 'hot-chocolate', icon: FoodIconHotChocolate },
+  { id: 'ice-cream-waffle-cone', icon: FoodIconIceCreamInWaffleCone },
+  { id: 'jam', icon: FoodIconJam },
+  { id: 'lemon', icon: FoodIconLemon },
+  { id: 'lettuce', icon: FoodIconLettuce },
+  { id: 'meat', icon: FoodIconMeat },
+  { id: 'meat-sausage', icon: FoodIconMeatSausage },
+  { id: 'milk-bottle', icon: FoodIconMilkBottle },
+  { id: 'mushroom', icon: FoodIconMushroom },
+  { id: 'nut', icon: FoodIconNut },
+  { id: 'olive-oil', icon: FoodIconOliveOil },
+  { id: 'onion', icon: FoodIconOnion },
+  { id: 'paprika', icon: FoodIconPaprika },
+  { id: 'potato', icon: FoodIconPotato },
+  { id: 'prawn', icon: FoodIconPrawn },
+  { id: 'pumpkin', icon: FoodIconPumpkin },
+  { id: 'radish', icon: FoodIconRadish },
+  { id: 'salami', icon: FoodIconSalami },
+  { id: 'salami-pizza', icon: FoodIconSalamiPizza },
+  { id: 'salmon', icon: FoodIconSalmon },
+  { id: 'strawberry', icon: FoodIconStrawberry },
+  { id: 'sugar-sack1', icon: FoodIconSugarSack1 },
+  { id: 'sugar-sack2', icon: FoodIconSugarSack2 },
+  { id: 'tin-can', icon: FoodIconTinCan },
+  { id: 'tomato', icon: FoodIconTomato },
+  { id: 'turkey', icon: FoodIconTurkey },
+  { id: 'wine-and-grapes', icon: FoodIconWineAndGrapes },
+];
